@@ -1,4 +1,4 @@
-namespace DefaultNamespace {
+namespace CleverCrow.FluidStateMachine {
     public interface IAction {
         string Name { get; }
 

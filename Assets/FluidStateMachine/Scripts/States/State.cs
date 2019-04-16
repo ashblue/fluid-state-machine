@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using DefaultNamespace;
 
 namespace CleverCrow.FluidStateMachine {
     public class State : IState {

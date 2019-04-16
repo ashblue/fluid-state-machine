@@ -43,5 +43,27 @@ namespace CleverCrow.FluidStateMachine.Editors {
                 Assert.AreEqual("custom action", state.Actions[0].Name);
             }
         }
+
+        public class EnterMethod : StateBuilderTest {
+            [Test]
+            public void It_should_add_an_ActionEnter () {
+                var state = _builder
+                    .Enter("custom action", () => { })
+                    .Build();
+                
+                Assert.IsTrue(state.Actions[0] is ActionEnter);
+            }
+        }
+        
+        public class ExitMethod : StateBuilderTest {
+            [Test]
+            public void It_should_add_an_ActionExit () {
+                var state = _builder
+                    .Exit("custom action", () => { })
+                    .Build();
+                
+                Assert.IsTrue(state.Actions[0] is ActionExit);
+            }
+        }
     }
 }

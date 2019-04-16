@@ -1,15 +1,15 @@
 using NUnit.Framework;
 
 namespace CleverCrow.FluidStateMachine.Editors {
-    public class ActionUpdateTest {
+    public class ActionEnterTest {
         public class UpdateMethod {
             [Test]
-            public void It_should_trigger_the_Update_action () {
+            public void It_should_trigger_the_Enter_action () {
                 var triggered = false;
-                var actionUpdate = new ActionUpdate("a", () => triggered = true);
+                var actionUpdate = new ActionEnter("a", () => triggered = true);
 
-                actionUpdate.Update();
-
+                actionUpdate.Enter();
+                
                 Assert.IsTrue(triggered);
             }
         }

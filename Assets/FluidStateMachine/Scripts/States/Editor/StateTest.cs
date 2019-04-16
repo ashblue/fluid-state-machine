@@ -1,4 +1,3 @@
-using DefaultNamespace;
 using NSubstitute;
 using NUnit.Framework;
 

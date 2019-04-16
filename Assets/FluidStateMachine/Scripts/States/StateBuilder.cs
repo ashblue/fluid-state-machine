@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using DefaultNamespace;
 
 namespace CleverCrow.FluidStateMachine.Editors {
     public class StateBuilder {
@@ -19,6 +18,16 @@ namespace CleverCrow.FluidStateMachine.Editors {
 
         public StateBuilder Update (string actionName, Action action) {
             _actions.Add(new ActionUpdate(actionName, action));
+            return this;
+        }
+        
+        public StateBuilder Enter (string actionName, Action action) {
+            _actions.Add(new ActionEnter(actionName, action));
+            return this;
+        }
+        
+        public StateBuilder Exit (string actionName, Action action) {
+            _actions.Add(new ActionExit(actionName, action));
             return this;
         }
         
