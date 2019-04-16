@@ -20,5 +20,23 @@ namespace CleverCrow.FluidStateMachine {
         public ITransition GetTransition (string name) {
             return _transitions[name];
         }
+        
+        public void Update () {
+            foreach (var action in Actions) {
+                action.Update();
+            }
+        }
+
+        public void Enter () {
+            foreach (var action in Actions) {
+                action.Enter();
+            }
+        }
+
+        public void Exit () {
+            foreach (var action in Actions) {
+                action.Exit();
+            }
+        }
     }
 }

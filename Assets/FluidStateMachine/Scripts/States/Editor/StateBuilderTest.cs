@@ -2,25 +2,29 @@ using NUnit.Framework;
 
 namespace CleverCrow.FluidStateMachine.Editors {
     public class StateBuilderTest {
+        private StateBuilder _builder;
+        
         private enum StateEnum {
             A,
             B,
         }
+
+        [SetUp]
+        public void BeforeEach () {
+            _builder = new StateBuilder(StateEnum.A);
+        }
         
-        public class BuildMethod {
+        public class BuildMethod : StateBuilderTest {
             [Test]
             public void It_should_create_a_State () {
-                var builder = new StateBuilder(StateEnum.A);
-                
-                Assert.IsTrue(builder.Build() is State);
+                Assert.IsTrue(_builder.Build() is State);
             }
         }
 
-        public class TransitionMethod {
+        public class TransitionMethod : StateBuilderTest {
             [Test]
             public void It_should_add_a_transition_to_another_state () {
-                var builder = new StateBuilder(StateEnum.A);
-                var state = builder
+                var state = _builder
                     .Transition("change", StateEnum.B)
                     .Build();
                 var transition = state.GetTransition("change");
@@ -29,11 +33,10 @@ namespace CleverCrow.FluidStateMachine.Editors {
             }
         }
 
-        public class UpdateMethod {
+        public class UpdateMethod : StateBuilderTest {
             [Test]
             public void It_should_add_an_UpdateAction_with_the_expected_Action_name () {
-                var builder = new StateBuilder(StateEnum.A);
-                var state = builder
+                var state = _builder
                     .Update("custom action", () => { })
                     .Build();
                 

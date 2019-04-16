@@ -3,5 +3,7 @@ namespace DefaultNamespace {
         string Name { get; }
 
         void Update ();
+        void Enter ();
+        void Exit ();
     }
 }
