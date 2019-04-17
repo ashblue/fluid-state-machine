@@ -1,9 +1,11 @@
 using NSubstitute;
 using NUnit.Framework;
+using UnityEngine;
 
 namespace CleverCrow.FluidStateMachine.Editors {
     public class StateTest {
         private IFsm _fsm;
+        private State _state;
 
         private enum StateId {
             A,
@@ -13,6 +15,19 @@ namespace CleverCrow.FluidStateMachine.Editors {
         [SetUp]
         public void BeforeEach () {
             _fsm = Substitute.For<IFsm>();
+            _state = new State(_fsm, StateId.A);
+        }
+
+        public class GameObjectProperty : StateTest {
+            [Test]
+            public void It_should_reference_the_fsm_GameObject () {
+                var go = new GameObject();
+                _fsm.Owner.Returns(go);
+                
+                Assert.AreEqual(go, _state.GameObject);
+                
+                Object.DestroyImmediate(go);
+            }
         }
         
         public class UpdateMethod : StateTest {

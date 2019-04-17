@@ -1,13 +1,15 @@
 using System;
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace CleverCrow.FluidStateMachine {
     public class State : IState {
-        private IFsm _fsm;
+        private readonly IFsm _fsm;
         private readonly Dictionary<string, ITransition> _transitions = new Dictionary<string, ITransition>();
         
         public Enum Id { get; }
         public List<IAction> Actions { get; } = new List<IAction>();
+        public GameObject GameObject => _fsm.Owner;
 
         public State (IFsm fsm, Enum id) {
             _fsm = fsm;

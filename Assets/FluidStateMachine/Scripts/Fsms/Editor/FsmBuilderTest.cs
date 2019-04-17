@@ -1,12 +1,20 @@
 using NUnit.Framework;
+using UnityEngine;
 
 namespace CleverCrow.FluidStateMachine.Editors {
     public class FsmBuilderTest {
         private FsmBuilder _builder;
+        private GameObject _owner;
         
         [SetUp]
         public void BeforeEach () {
-            _builder = new FsmBuilder();
+            _owner = new GameObject();
+            _builder = new FsmBuilder().Owner(_owner);
+        }
+
+        [TearDown]
+        public void AfterEach () {
+            Object.DestroyImmediate(_owner);
         }
         
         public class BuildMethod : FsmBuilderTest {
