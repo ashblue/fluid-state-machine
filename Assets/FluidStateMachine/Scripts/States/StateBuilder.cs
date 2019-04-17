@@ -31,8 +31,8 @@ namespace CleverCrow.FluidStateMachine.Editors {
             return this;
         }
         
-        public IState Build () {
-            var state = new State(_id);
+        public IState Build (IFsm fsm) {
+            var state = new State(fsm, _id);
             
             foreach (var transition in _transitions) {
                 state.AddTransition(transition);

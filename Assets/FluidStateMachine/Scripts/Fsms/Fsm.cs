@@ -12,5 +12,9 @@ namespace CleverCrow.FluidStateMachine {
         public void AddState (IState state) {
             _stateDic[state.Id] = state;
         }
+
+        public void SetState (Enum id) {
+            throw new NotImplementedException();
+        }
     }
 }

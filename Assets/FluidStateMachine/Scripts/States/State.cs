@@ -3,12 +3,14 @@ using System.Collections.Generic;
 
 namespace CleverCrow.FluidStateMachine {
     public class State : IState {
+        private IFsm _fsm;
         private readonly Dictionary<string, ITransition> _transitions = new Dictionary<string, ITransition>();
         
         public Enum Id { get; }
         public List<IAction> Actions { get; } = new List<IAction>();
 
-        public State (Enum id) {
+        public State (IFsm fsm, Enum id) {
+            _fsm = fsm;
             Id = id;
         }
 
@@ -36,6 +38,11 @@ namespace CleverCrow.FluidStateMachine {
             foreach (var action in Actions) {
                 action.Exit();
             }
+        }
+
+        public void Transition (string id) {
+            var transition = GetTransition(id);
+            _fsm.SetState(transition.Target);
         }
     }
 }
