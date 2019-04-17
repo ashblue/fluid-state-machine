@@ -9,5 +9,7 @@ namespace CleverCrow.FluidStateMachine {
         GameObject GameObject { get; }
 
         ITransition GetTransition (string name);
+        void Enter ();
+        void Exit ();
     }
 }

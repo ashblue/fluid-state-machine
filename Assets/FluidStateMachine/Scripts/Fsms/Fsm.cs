@@ -7,6 +7,7 @@ namespace CleverCrow.FluidStateMachine {
         private readonly Dictionary<Enum, IState> _stateDic = new Dictionary<Enum, IState>();
         
         public GameObject Owner { get; }
+        public IState CurrentState { get; private set; }
 
         public Fsm (GameObject owner) {
             Owner = owner;
@@ -21,8 +22,9 @@ namespace CleverCrow.FluidStateMachine {
         }
 
         public void SetState (Enum id) {
-            throw new NotImplementedException();
+            CurrentState?.Exit();
+            CurrentState = GetState(id);
+            CurrentState.Enter();
         }
-
     }
 }
