@@ -26,5 +26,9 @@ namespace CleverCrow.FluidStateMachine {
             CurrentState = GetState(id);
             CurrentState.Enter();
         }
+
+        public void Tick () {
+            CurrentState?.Update();
+        }
     }
 }

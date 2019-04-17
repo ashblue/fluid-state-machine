@@ -6,7 +6,8 @@ namespace CleverCrow.FluidStateMachine.Editors {
     public class FsmTest {
         private GameObject _owner;
         private Fsm _fsm;
-        
+        private IState _state;
+
         private enum StateId {
             A,
             B,
@@ -16,6 +17,8 @@ namespace CleverCrow.FluidStateMachine.Editors {
         public void BeforeEach () {
             _owner = new GameObject();
             _fsm = new Fsm(_owner);
+            _state = Substitute.For<IState>();
+            _state.Id.Returns(StateId.A);
         }
 
         [TearDown]
@@ -24,14 +27,6 @@ namespace CleverCrow.FluidStateMachine.Editors {
         }
         
         public class SetStateMethod : FsmTest {
-            private IState _state;
-
-            [SetUp]
-            public void BeforeEach () {
-                _state = Substitute.For<IState>();
-                _state.Id.Returns(StateId.A);
-            }
-            
             [Test]
             public void It_should_set_the_current_state () {
                 _fsm.AddState(_state);
@@ -60,6 +55,18 @@ namespace CleverCrow.FluidStateMachine.Editors {
                 _fsm.SetState(_state.Id);
 
                 stateAlt.Received(1).Exit();
+            }
+        }
+
+        public class TickMethod : FsmTest {
+            [Test]
+            public void It_should_call_Update_on_the_current_state () {
+                _fsm.AddState(_state);
+                _fsm.SetState(_state.Id);
+
+                _fsm.Tick();
+
+                _state.Received(1).Update();
             }
         }
     }
