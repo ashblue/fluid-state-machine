@@ -7,6 +7,7 @@ namespace CleverCrow.FluidStateMachine {
     public class FsmBuilder {
         private List<StateData> _stateData = new List<StateData>();
         private GameObject _owner;
+        private Enum _defaultState;
         
         private class StateData {
             public Enum id;
@@ -29,12 +30,27 @@ namespace CleverCrow.FluidStateMachine {
             return this;
         }
         
+        public FsmBuilder Default (Enum id) {
+            _defaultState = id;
+            return this;
+        }
+        
         public IFsm Build () {
             var fsm = new Fsm(_owner) as IFsm;
+            StateData defaultState = null;
+            
             foreach (var state in _stateData) {
                 var builder = new StateBuilder(state.id);
                 state.callback(builder);
-                fsm.AddState(builder.Build(fsm));                
+                fsm.AddState(builder.Build(fsm));
+
+                if (Equals(_defaultState, state.id)) {
+                    defaultState = state;
+                }
+            }
+
+            if (defaultState != null) {
+                fsm.SetState(defaultState.id);
             }
 
             return fsm;

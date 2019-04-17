@@ -7,5 +7,6 @@ namespace CleverCrow.FluidStateMachine {
         void AddState (IState state);
         void SetState (Enum id);
         GameObject Owner { get; }
+        IState CurrentState { get; }
     }
 }

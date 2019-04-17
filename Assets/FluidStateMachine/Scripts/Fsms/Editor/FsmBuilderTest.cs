@@ -6,6 +6,10 @@ namespace CleverCrow.FluidStateMachine.Editors {
         private FsmBuilder _builder;
         private GameObject _owner;
         
+        private enum StateEnum {
+            A,
+        }
+        
         [SetUp]
         public void BeforeEach () {
             _owner = new GameObject();
@@ -20,21 +24,27 @@ namespace CleverCrow.FluidStateMachine.Editors {
         public class BuildMethod : FsmBuilderTest {
             [Test]
             public void It_should_create_an_fsm () {
-                _builder = new FsmBuilder();
                 var fsm = _builder.Build();
 
                 Assert.IsTrue(fsm is IFsm);
             }
         }
         
-        public class StateMethod : FsmBuilderTest {
-            private enum StateEnum {
-                A,
+        public class DefaultMethod : FsmBuilderTest {
+            [Test]
+            public void It_should_set_the_default_start_state () {
+                var fsm = _builder
+                    .Default(StateEnum.A)
+                    .State(StateEnum.A, (a) => {})
+                    .Build();
+                
+                Assert.AreEqual(fsm.GetState(StateEnum.A), fsm.CurrentState);
             }
-            
+        }
+        
+        public class StateMethod : FsmBuilderTest {            
             [Test]
             public void It_should_add_a_state_with_an_enum_ID () {
-                _builder = new FsmBuilder();
                 var fsm = _builder.State(StateEnum.A, (a) => {}).Build();
                 var state = fsm.GetState(StateEnum.A);
                 
@@ -43,7 +53,6 @@ namespace CleverCrow.FluidStateMachine.Editors {
 
             [Test]
             public void It_should_trigger_a_callback_with_a_StateBuilder_argument () {
-                _builder = new FsmBuilder();
                 StateBuilder stateBuilder = null;
                 _builder
                     .State(StateEnum.A, (state) => stateBuilder = state)
