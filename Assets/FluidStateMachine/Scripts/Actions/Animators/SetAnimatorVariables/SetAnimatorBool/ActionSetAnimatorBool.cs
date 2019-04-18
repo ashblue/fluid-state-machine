@@ -1,8 +1,5 @@
-using UnityEngine;
-
 namespace CleverCrow.FluidStateMachine {
-    public class ActionSetAnimatorBool : ActionBase {
-        private Animator _animator;
+    public class ActionSetAnimatorBool : ActionSetAnimatorVariableBase {
         private readonly string _paramName;
         private readonly bool _value;
 
@@ -11,10 +8,6 @@ namespace CleverCrow.FluidStateMachine {
         public ActionSetAnimatorBool (string paramName, bool value) {
             _paramName = paramName;
             _value = value;
-        }
-        
-        protected override void OnInit () {
-            _animator = ParentState.ParentFsm.Owner.GetComponent<Animator>();
         }
 
         protected override void OnEnter () {

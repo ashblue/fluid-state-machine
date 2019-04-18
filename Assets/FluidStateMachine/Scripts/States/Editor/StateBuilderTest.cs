@@ -36,83 +36,120 @@ namespace CleverCrow.FluidStateMachine.Editors {
             }
         }
 
-        public class UpdateMethod : StateBuilderTest {
-            [Test]
-            public void It_should_add_an_UpdateAction () {
-                var state = _builder
-                    .Update(() => { })
-                    .Build(_fsm);
+        public class DefaultActions {
+            public class UpdateMethod : StateBuilderTest {
+                [Test]
+                public void It_should_add_an_UpdateAction () {
+                    var state = _builder
+                        .Update(() => { })
+                        .Build(_fsm);
 
-                Assert.IsTrue(state.Actions[0] is ActionUpdate);
+                    Assert.IsTrue(state.Actions[0] is ActionUpdate);
+                }
+
+                [Test]
+                public void It_should_add_an_UpdateAction_with_the_expected_Action_name () {
+                    var state = _builder
+                        .Update("custom action", () => { })
+                        .Build(_fsm);
+
+                    Assert.AreEqual("custom action", state.Actions[0].Name);
+                }
+
+                [Test]
+                public void It_should_attach_the_state_to_actions () {
+                    var state = _builder
+                        .Update(() => { })
+                        .Build(_fsm);
+
+                    Assert.AreEqual(state, state.Actions[0].ParentState);
+                }
             }
 
-            [Test]
-            public void It_should_add_an_UpdateAction_with_the_expected_Action_name () {
-                var state = _builder
-                    .Update("custom action", () => { })
-                    .Build(_fsm);
+            public class EnterMethod : StateBuilderTest {
+                [Test]
+                public void It_should_add_an_ActionEnter () {
+                    var state = _builder
+                        .Enter(() => { })
+                        .Build(_fsm);
 
-                Assert.AreEqual("custom action", state.Actions[0].Name);
+                    Assert.IsTrue(state.Actions[0] is ActionEnter);
+                }
+
+                [Test]
+                public void It_should_add_an_ActionEnter_with_the_expected_name () {
+                    var state = _builder
+                        .Enter("custom action", () => { })
+                        .Build(_fsm);
+
+                    Assert.AreEqual("custom action", state.Actions[0].Name);
+                }
             }
 
-            [Test]
-            public void It_should_attach_the_state_to_actions () {
-                var state = _builder
-                    .Update(() => { })
-                    .Build(_fsm);
+            public class ExitMethod : StateBuilderTest {
+                [Test]
+                public void It_should_add_an_ActionExit () {
+                    var state = _builder
+                        .Exit(() => { })
+                        .Build(_fsm);
 
-                Assert.AreEqual(state, state.Actions[0].ParentState);
+                    Assert.IsTrue(state.Actions[0] is ActionExit);
+                }
+
+                [Test]
+                public void It_should_add_an_ActionExit_with_the_expected_name () {
+                    var state = _builder
+                        .Exit("custom action", () => { })
+                        .Build(_fsm);
+
+                    Assert.AreEqual("custom action", state.Actions[0].Name);
+                }
             }
         }
 
-        public class EnterMethod : StateBuilderTest {
-            [Test]
-            public void It_should_add_an_ActionEnter () {
-                var state = _builder
-                    .Enter(() => { })
-                    .Build(_fsm);
+        public class AnimatorActions {
+            public class SetAnimatorTriggerMethod : StateBuilderTest {
+                [Test]
+                public void It_should_add_an_ActionSetAnimatorTrigger () {
+                    var state = _builder
+                        .SetAnimatorTrigger("name")
+                        .Build(_fsm);
 
-                Assert.IsTrue(state.Actions[0] is ActionEnter);
+                    Assert.IsTrue(state.Actions[0] is ActionSetAnimatorTrigger);
+                }
             }
+            
+            public class SetAnimatorBoolMethod : StateBuilderTest {
+                [Test]
+                public void It_should_add_an_ActionSetAnimatorBool () {
+                    var state = _builder
+                        .SetAnimatorBool("name", true)
+                        .Build(_fsm);
 
-            [Test]
-            public void It_should_add_an_ActionEnter_with_the_expected_name () {
-                var state = _builder
-                    .Enter("custom action", () => { })
-                    .Build(_fsm);
-
-                Assert.AreEqual("custom action", state.Actions[0].Name);
+                    Assert.IsTrue(state.Actions[0] is ActionSetAnimatorBool);
+                }
             }
-        }
+            
+            public class SetAnimatorIntMethod : StateBuilderTest {
+                [Test]
+                public void It_should_add_an_ActionSetAnimatorInt () {
+                    var state = _builder
+                        .SetAnimatorInt("name", 1)
+                        .Build(_fsm);
 
-        public class ExitMethod : StateBuilderTest {
-            [Test]
-            public void It_should_add_an_ActionExit () {
-                var state = _builder
-                    .Exit(() => { })
-                    .Build(_fsm);
-
-                Assert.IsTrue(state.Actions[0] is ActionExit);
+                    Assert.IsTrue(state.Actions[0] is ActionSetAnimatorInt);
+                }
             }
+            
+            public class SetAnimatorFloatMethod : StateBuilderTest {
+                [Test]
+                public void It_should_add_an_ActionSetAnimatorFloat () {
+                    var state = _builder
+                        .SetAnimatorFloat("name", 1)
+                        .Build(_fsm);
 
-            [Test]
-            public void It_should_add_an_ActionExit_with_the_expected_name () {
-                var state = _builder
-                    .Exit("custom action", () => { })
-                    .Build(_fsm);
-
-                Assert.AreEqual("custom action", state.Actions[0].Name);
-            }
-        }
-
-        public class SetAnimatorBoolMethod : StateBuilderTest {
-            [Test]
-            public void It_should_add_an_ActionSetAnimatorBool () {
-                var state = _builder
-                    .SetAnimatorBool("name", true)
-                    .Build(_fsm);
-
-                Assert.IsTrue(state.Actions[0] is ActionSetAnimatorBool);
+                    Assert.IsTrue(state.Actions[0] is ActionSetAnimatorFloat);
+                }
             }
         }
     }
