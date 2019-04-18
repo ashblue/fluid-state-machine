@@ -7,8 +7,9 @@ namespace CleverCrow.FluidStateMachine {
     public class ActionUpdate : ActionBase {
         private readonly Action _update;
 
-        public ActionUpdate (string name, Action update) {
-            Name = name;
+        public override string Name { get; set; } = "Update";
+
+        public ActionUpdate (Action update) {
             _update = update;
         }
 

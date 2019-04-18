@@ -15,19 +15,40 @@ namespace CleverCrow.FluidStateMachine.Editors {
             _transitions.Add(new Transition(change, id));
             return this;
         }
+        
+        public StateBuilder Update (Action action) {
+            _actions.Add(new ActionUpdate(action));
+            return this;
+        }
 
         public StateBuilder Update (string actionName, Action action) {
-            _actions.Add(new ActionUpdate(actionName, action));
+            _actions.Add(new ActionUpdate(action) {
+                Name = actionName,
+            });
             return this;
         }
         
         public StateBuilder Enter (string actionName, Action action) {
-            _actions.Add(new ActionEnter(actionName, action));
+            _actions.Add(new ActionEnter(action) {
+                Name = actionName,
+            });
+            return this;
+        }
+        
+        public StateBuilder Enter (Action action) {
+            _actions.Add(new ActionEnter(action));
             return this;
         }
         
         public StateBuilder Exit (string actionName, Action action) {
-            _actions.Add(new ActionExit(actionName, action));
+            _actions.Add(new ActionExit(action) {
+                Name = actionName,
+            });
+            return this;
+        }
+        
+        public StateBuilder Exit (Action action) {
+            _actions.Add(new ActionExit(action));
             return this;
         }
         

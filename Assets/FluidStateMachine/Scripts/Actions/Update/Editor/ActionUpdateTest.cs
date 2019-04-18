@@ -6,7 +6,7 @@ namespace CleverCrow.FluidStateMachine.Editors {
             [Test]
             public void It_should_trigger_the_Update_action () {
                 var triggered = false;
-                var actionUpdate = new ActionUpdate("a", () => triggered = true);
+                var actionUpdate = new ActionUpdate(() => triggered = true);
 
                 actionUpdate.Update();
 

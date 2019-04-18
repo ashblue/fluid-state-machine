@@ -38,6 +38,15 @@ namespace CleverCrow.FluidStateMachine.Editors {
 
         public class UpdateMethod : StateBuilderTest {
             [Test]
+            public void It_should_add_an_UpdateAction () {
+                var state = _builder
+                    .Update(() => {})
+                    .Build(_fsm);
+                
+                Assert.IsTrue(state.Actions[0] is ActionUpdate);
+            }
+            
+            [Test]
             public void It_should_add_an_UpdateAction_with_the_expected_Action_name () {
                 var state = _builder
                     .Update("custom action", () => { })
@@ -51,10 +60,19 @@ namespace CleverCrow.FluidStateMachine.Editors {
             [Test]
             public void It_should_add_an_ActionEnter () {
                 var state = _builder
-                    .Enter("custom action", () => { })
+                    .Enter(() => { })
                     .Build(_fsm);
                 
                 Assert.IsTrue(state.Actions[0] is ActionEnter);
+            }
+            
+            [Test]
+            public void It_should_add_an_ActionEnter_with_the_expected_name () {
+                var state = _builder
+                    .Enter("custom action", () => { })
+                    .Build(_fsm);
+                
+                Assert.AreEqual("custom action", state.Actions[0].Name);
             }
         }
         
@@ -62,10 +80,19 @@ namespace CleverCrow.FluidStateMachine.Editors {
             [Test]
             public void It_should_add_an_ActionExit () {
                 var state = _builder
-                    .Exit("custom action", () => { })
+                    .Exit(() => { })
                     .Build(_fsm);
                 
                 Assert.IsTrue(state.Actions[0] is ActionExit);
+            }
+            
+            [Test]
+            public void It_should_add_an_ActionExit_with_the_expected_name () {
+                var state = _builder
+                    .Exit("custom action", () => { })
+                    .Build(_fsm);
+                
+                Assert.AreEqual("custom action", state.Actions[0].Name);
             }
         }
     }

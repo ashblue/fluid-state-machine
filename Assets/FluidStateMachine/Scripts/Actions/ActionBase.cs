@@ -1,6 +1,6 @@
 namespace CleverCrow.FluidStateMachine {
     public abstract class ActionBase : IAction {
-        public string Name { get; protected set; }
+        public virtual string Name { get; set; } = "Untitled";
         
         public void Update () {
             OnUpdate();

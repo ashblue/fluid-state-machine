@@ -7,8 +7,9 @@ namespace CleverCrow.FluidStateMachine {
     public class ActionEnter : ActionBase {
         private readonly Action _enter;
 
-        public ActionEnter (string name, Action enter) {
-            Name = name;
+        public override string Name { get; set; } = "Enter";
+
+        public ActionEnter (Action enter) {
             _enter = enter;
         }
 

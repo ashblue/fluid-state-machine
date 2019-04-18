@@ -3,9 +3,10 @@ using System;
 namespace CleverCrow.FluidStateMachine {
     public class ActionExit : ActionBase {
         private readonly Action _exit;
+        
+        public override string Name { get; set; } = "Exit";
 
-        public ActionExit (string name, Action exit) {
-            Name = name;
+        public ActionExit (Action exit) {
             _exit = exit;
         }
 
