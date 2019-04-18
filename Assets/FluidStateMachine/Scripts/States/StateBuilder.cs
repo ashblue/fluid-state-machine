@@ -15,6 +15,11 @@ namespace CleverCrow.FluidStateMachine.Editors {
             _transitions.Add(new Transition(change, id));
             return this;
         }
+
+        public StateBuilder SetAnimatorBool (string name, bool value) {
+            _actions.Add(new ActionSetAnimatorBool(name, value));
+            return this;
+        }
         
         public StateBuilder Update (Action action) {
             _actions.Add(new ActionUpdate(action));
@@ -60,6 +65,7 @@ namespace CleverCrow.FluidStateMachine.Editors {
             }
             
             foreach (var action in _actions) {
+                action.ParentState = state;
                 state.Actions.Add(action);
             }
                 

@@ -1,6 +1,7 @@
 namespace CleverCrow.FluidStateMachine {
     public interface IAction {
-        string Name { get; set; }
+        string Name { get; }
+        IState ParentState { get; set; }
 
         void Update ();
         void Enter ();

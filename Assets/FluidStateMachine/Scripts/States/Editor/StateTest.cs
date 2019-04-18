@@ -24,7 +24,7 @@ namespace CleverCrow.FluidStateMachine.Editors {
                 var go = new GameObject();
                 _fsm.Owner.Returns(go);
                 
-                Assert.AreEqual(go, _state.GameObject);
+                Assert.AreEqual(go, _state.ParentFsm.Owner);
                 
                 Object.DestroyImmediate(go);
             }

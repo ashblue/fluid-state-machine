@@ -4,15 +4,14 @@ using UnityEngine;
 
 namespace CleverCrow.FluidStateMachine {
     public class State : IState {
-        private readonly IFsm _fsm;
         private readonly Dictionary<string, ITransition> _transitions = new Dictionary<string, ITransition>();
         
         public Enum Id { get; }
         public List<IAction> Actions { get; } = new List<IAction>();
-        public GameObject GameObject => _fsm.Owner;
+        public IFsm ParentFsm { get; }
 
         public State (IFsm fsm, Enum id) {
-            _fsm = fsm;
+            ParentFsm = fsm;
             Id = id;
         }
 
@@ -44,7 +43,7 @@ namespace CleverCrow.FluidStateMachine {
 
         public void Transition (string id) {
             var transition = GetTransition(id);
-            _fsm.SetState(transition.Target);
+            ParentFsm.SetState(transition.Target);
         }
     }
 }
