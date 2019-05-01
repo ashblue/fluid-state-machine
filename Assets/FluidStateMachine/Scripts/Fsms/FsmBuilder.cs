@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using CleverCrow.FluidStateMachine.Editors;
 using UnityEngine;
 
 namespace CleverCrow.FluidStateMachine {

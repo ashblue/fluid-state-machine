@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace CleverCrow.FluidStateMachine.Editors {
+namespace CleverCrow.FluidStateMachine {
     public class StateBuilder {
         private readonly Enum _id;
         private readonly List<ITransition> _transitions = new List<ITransition>();
@@ -85,6 +85,21 @@ namespace CleverCrow.FluidStateMachine.Editors {
             }
                 
             return state;
+        }
+
+        public StateBuilder TriggerStay (string tag, Action action) {
+            _actions.Add(new ActionTriggerStay(tag, action));
+            return this;
+        }
+
+        public StateBuilder TriggerStay (ITriggerMonitor monitor, string tag, Action action) {
+            var triggerStay = new ActionTriggerStay(tag, action) {
+                Monitor = monitor
+            };
+            
+            _actions.Add(triggerStay);
+            
+            return this;
         }
     }
 }

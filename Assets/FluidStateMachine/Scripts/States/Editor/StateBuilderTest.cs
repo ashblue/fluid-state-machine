@@ -152,5 +152,30 @@ namespace CleverCrow.FluidStateMachine.Editors {
                 }
             }
         }
+
+        public class TriggerActions {
+            public class TriggerStay : StateBuilderTest {
+                [Test]
+                public void It_should_create_an_ActionTriggerStay () {
+                    var state = _builder
+                        .TriggerStay("Player", () => {})
+                        .Build(_fsm);
+                    
+                    Assert.IsTrue(state.Actions[0] is ActionTriggerStay);
+                }
+
+                [Test]
+                public void It_should_allow_overriding_the_trigger_monitor () {
+                    var monitor = Substitute.For<ITriggerMonitor>();
+                    var state = _builder
+                        .TriggerStay(monitor, "Player", () => {})
+                        .Build(_fsm);
+
+                    var trigger = state.Actions[0] as ActionTriggerStay;
+                    
+                    Assert.AreEqual(trigger.Monitor, monitor);
+                }
+            }
+        }
     }
 }
