@@ -9,7 +9,7 @@ namespace CleverCrow.FluidStateMachine.Editor {
                 return monitor.EventTriggerExit;
             }
 
-            protected override ActionTriggerBase GetNewActionTrigger (string tag, Action action) {
+            protected override ActionTriggerBase GetNewActionTrigger (string tag, Action<IAction> action) {
                 return new ActionTriggerExit(tag, action);
             }
         }

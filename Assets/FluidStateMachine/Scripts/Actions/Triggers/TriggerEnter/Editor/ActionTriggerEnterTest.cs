@@ -8,7 +8,7 @@ namespace CleverCrow.FluidStateMachine.Editors {
                 return monitor.EventTriggerEnter;
             }
 
-            protected override ActionTriggerBase GetNewActionTrigger (string tag, Action action) {
+            protected override ActionTriggerBase GetNewActionTrigger (string tag, Action<IAction> action) {
                 return new ActionTriggerEnter(tag, action);
             }
         }

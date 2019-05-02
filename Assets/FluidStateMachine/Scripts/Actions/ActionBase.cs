@@ -30,7 +30,11 @@ namespace CleverCrow.FluidStateMachine {
         public void Exit () {
             OnExit();
         }
-        
+
+        public void Transition (string id) {
+            ParentState.Transition(id);
+        }
+
         protected virtual void OnExit () {}
 
         /// <summary>

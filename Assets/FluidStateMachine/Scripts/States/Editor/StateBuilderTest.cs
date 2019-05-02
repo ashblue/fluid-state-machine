@@ -28,7 +28,7 @@ namespace CleverCrow.FluidStateMachine.Editors {
             [Test]
             public void It_should_add_a_transition_to_another_state () {
                 var state = _builder
-                    .Transition("change", StateEnum.B)
+                    .SetTransition("change", StateEnum.B)
                     .Build(_fsm);
                 var transition = state.GetTransition("change");
 
@@ -41,7 +41,7 @@ namespace CleverCrow.FluidStateMachine.Editors {
                 [Test]
                 public void It_should_add_an_UpdateAction () {
                     var state = _builder
-                        .Update(() => { })
+                        .Update((action) => { })
                         .Build(_fsm);
 
                     Assert.IsTrue(state.Actions[0] is ActionUpdate);
@@ -50,7 +50,7 @@ namespace CleverCrow.FluidStateMachine.Editors {
                 [Test]
                 public void It_should_add_an_UpdateAction_with_the_expected_Action_name () {
                     var state = _builder
-                        .Update("custom action", () => { })
+                        .Update("custom action", (action) => { })
                         .Build(_fsm);
 
                     Assert.AreEqual("custom action", state.Actions[0].Name);
@@ -59,7 +59,7 @@ namespace CleverCrow.FluidStateMachine.Editors {
                 [Test]
                 public void It_should_attach_the_state_to_actions () {
                     var state = _builder
-                        .Update(() => { })
+                        .Update((action) => { })
                         .Build(_fsm);
 
                     Assert.AreEqual(state, state.Actions[0].ParentState);
@@ -70,7 +70,7 @@ namespace CleverCrow.FluidStateMachine.Editors {
                 [Test]
                 public void It_should_add_an_ActionEnter () {
                     var state = _builder
-                        .Enter(() => { })
+                        .Enter((action) => { })
                         .Build(_fsm);
 
                     Assert.IsTrue(state.Actions[0] is ActionEnter);
@@ -79,7 +79,7 @@ namespace CleverCrow.FluidStateMachine.Editors {
                 [Test]
                 public void It_should_add_an_ActionEnter_with_the_expected_name () {
                     var state = _builder
-                        .Enter("custom action", () => { })
+                        .Enter("custom action", (action) => { })
                         .Build(_fsm);
 
                     Assert.AreEqual("custom action", state.Actions[0].Name);
@@ -90,7 +90,7 @@ namespace CleverCrow.FluidStateMachine.Editors {
                 [Test]
                 public void It_should_add_an_ActionExit () {
                     var state = _builder
-                        .Exit(() => { })
+                        .Exit((action) => { })
                         .Build(_fsm);
 
                     Assert.IsTrue(state.Actions[0] is ActionExit);
@@ -99,7 +99,7 @@ namespace CleverCrow.FluidStateMachine.Editors {
                 [Test]
                 public void It_should_add_an_ActionExit_with_the_expected_name () {
                     var state = _builder
-                        .Exit("custom action", () => { })
+                        .Exit("custom action", (action) => { })
                         .Build(_fsm);
 
                     Assert.AreEqual("custom action", state.Actions[0].Name);
@@ -158,7 +158,7 @@ namespace CleverCrow.FluidStateMachine.Editors {
                 [Test]
                 public void It_should_create_an_ActionTriggerStay () {
                     var state = _builder
-                        .TriggerStay("Player", () => {})
+                        .TriggerStay("Player", (action) => {})
                         .Build(_fsm);
                     
                     Assert.IsTrue(state.Actions[0] is ActionTriggerStay);
@@ -168,10 +168,56 @@ namespace CleverCrow.FluidStateMachine.Editors {
                 public void It_should_allow_overriding_the_trigger_monitor () {
                     var monitor = Substitute.For<ITriggerMonitor>();
                     var state = _builder
-                        .TriggerStay(monitor, "Player", () => {})
+                        .TriggerStay(monitor, "Player", (action) => {})
                         .Build(_fsm);
 
                     var trigger = state.Actions[0] as ActionTriggerStay;
+                    
+                    Assert.AreEqual(trigger.Monitor, monitor);
+                }
+            }
+            
+            public class TriggerEnter : StateBuilderTest {
+                [Test]
+                public void It_should_create_an_ActionTriggerEnter () {
+                    var state = _builder
+                        .TriggerEnter("Player", (action) => {})
+                        .Build(_fsm);
+                    
+                    Assert.IsTrue(state.Actions[0] is ActionTriggerEnter);
+                }
+
+                [Test]
+                public void It_should_allow_overriding_the_trigger_monitor () {
+                    var monitor = Substitute.For<ITriggerMonitor>();
+                    var state = _builder
+                        .TriggerEnter(monitor, "Player", (action) => {})
+                        .Build(_fsm);
+
+                    var trigger = state.Actions[0] as ActionTriggerEnter;
+                    
+                    Assert.AreEqual(trigger.Monitor, monitor);
+                }
+            }
+            
+            public class TriggerExit : StateBuilderTest {
+                [Test]
+                public void It_should_create_an_ActionTriggerExit () {
+                    var state = _builder
+                        .TriggerExit("Player", (action) => {})
+                        .Build(_fsm);
+                    
+                    Assert.IsTrue(state.Actions[0] is ActionTriggerExit);
+                }
+
+                [Test]
+                public void It_should_allow_overriding_the_trigger_monitor () {
+                    var monitor = Substitute.For<ITriggerMonitor>();
+                    var state = _builder
+                        .TriggerExit(monitor, "Player", (action) => {})
+                        .Build(_fsm);
+
+                    var trigger = state.Actions[0] as ActionTriggerExit;
                     
                     Assert.AreEqual(trigger.Monitor, monitor);
                 }

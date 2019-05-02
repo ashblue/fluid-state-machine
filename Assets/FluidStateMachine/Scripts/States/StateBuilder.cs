@@ -11,7 +11,7 @@ namespace CleverCrow.FluidStateMachine {
             _id = id;
         }
         
-        public StateBuilder Transition (string change, Enum id) {
+        public StateBuilder SetTransition (string change, Enum id) {
             _transitions.Add(new Transition(change, id));
             return this;
         }
@@ -36,39 +36,84 @@ namespace CleverCrow.FluidStateMachine {
             return this;
         }
         
-        public StateBuilder Update (Action action) {
+        public StateBuilder Update (Action<IAction> action) {
             _actions.Add(new ActionUpdate(action));
             return this;
         }
 
-        public StateBuilder Update (string actionName, Action action) {
+        public StateBuilder Update (string actionName, Action<IAction> action) {
             _actions.Add(new ActionUpdate(action) {
                 Name = actionName,
             });
             return this;
         }
         
-        public StateBuilder Enter (string actionName, Action action) {
+        public StateBuilder Enter (string actionName, Action<IAction> action) {
             _actions.Add(new ActionEnter(action) {
                 Name = actionName,
             });
             return this;
         }
         
-        public StateBuilder Enter (Action action) {
+        public StateBuilder Enter (Action<IAction> action) {
             _actions.Add(new ActionEnter(action));
             return this;
         }
         
-        public StateBuilder Exit (string actionName, Action action) {
+        public StateBuilder Exit (string actionName, Action<IAction> action) {
             _actions.Add(new ActionExit(action) {
                 Name = actionName,
             });
             return this;
         }
         
-        public StateBuilder Exit (Action action) {
+        public StateBuilder Exit (Action<IAction> action) {
             _actions.Add(new ActionExit(action));
+            return this;
+        }
+
+        public StateBuilder TriggerStay (string tag, Action<IAction> action) {
+            _actions.Add(new ActionTriggerStay(tag, action));
+            return this;
+        }
+
+        public StateBuilder TriggerStay (ITriggerMonitor monitor, string tag, Action<IAction> action) {
+            var triggerStay = new ActionTriggerStay(tag, action) {
+                Monitor = monitor
+            };
+            
+            _actions.Add(triggerStay);
+            
+            return this;
+        }
+        
+        public StateBuilder TriggerEnter (string tag, Action<IAction> action) {
+            _actions.Add(new ActionTriggerEnter(tag, action));
+            return this;
+        }
+        
+        public StateBuilder TriggerEnter (ITriggerMonitor monitor, string tag, Action<IAction> action) {
+            var triggerEnter = new ActionTriggerEnter(tag, action) {
+                Monitor = monitor
+            };
+            
+            _actions.Add(triggerEnter);
+            
+            return this;
+        }
+        
+        public StateBuilder TriggerExit (string tag, Action<IAction> action) {
+            _actions.Add(new ActionTriggerExit(tag, action));
+            return this;
+        }
+        
+        public StateBuilder TriggerExit (ITriggerMonitor monitor, string tag, Action<IAction> action) {
+            var triggerExit = new ActionTriggerExit(tag, action) {
+                Monitor = monitor
+            };
+            
+            _actions.Add(triggerExit);
+            
             return this;
         }
         
@@ -85,21 +130,6 @@ namespace CleverCrow.FluidStateMachine {
             }
                 
             return state;
-        }
-
-        public StateBuilder TriggerStay (string tag, Action action) {
-            _actions.Add(new ActionTriggerStay(tag, action));
-            return this;
-        }
-
-        public StateBuilder TriggerStay (ITriggerMonitor monitor, string tag, Action action) {
-            var triggerStay = new ActionTriggerStay(tag, action) {
-                Monitor = monitor
-            };
-            
-            _actions.Add(triggerStay);
-            
-            return this;
         }
     }
 }

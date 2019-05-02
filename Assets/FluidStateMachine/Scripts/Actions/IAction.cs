@@ -6,5 +6,6 @@ namespace CleverCrow.FluidStateMachine {
         void Update ();
         void Enter ();
         void Exit ();
+        void Transition (string id);
     }
 }

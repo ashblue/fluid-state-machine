@@ -8,7 +8,7 @@ using Object = UnityEngine.Object;
 namespace CleverCrow.FluidStateMachine.Editors {
     public class ActionTriggerBaseTest {
         private class TriggerTest : ActionTriggerBase {
-            public TriggerTest (string tag, Action update) : base(tag, update) {
+            public TriggerTest (string tag, Action<IAction> update) : base(tag, update) {
             }
         }
         
@@ -19,7 +19,7 @@ namespace CleverCrow.FluidStateMachine.Editors {
             [SetUp]
             public void BeforeEach () {
                 _owner = new GameObject();
-                _trigger = new TriggerTest("player", () => {});
+                _trigger = new TriggerTest("player", (action) => {});
                 _trigger.ParentState = Substitute.For<IState>();
                 _trigger.ParentState.ParentFsm.Owner.Returns(_owner);
             }
@@ -48,7 +48,7 @@ namespace CleverCrow.FluidStateMachine.Editors {
             [Test]
             public void It_should_not_add_a_second_monitor_if_already_on_the_owner () {
                 var parentState = _trigger.ParentState;
-                var actionTriggerAlt = new TriggerTest("a", () => {});
+                var actionTriggerAlt = new TriggerTest("a", (action) => {});
                 actionTriggerAlt.ParentState = parentState;
                 
                 _trigger.PopulateMonitor();
@@ -68,7 +68,7 @@ namespace CleverCrow.FluidStateMachine.Editors {
             }
 
             protected abstract UnityEvent<ICollider> GetEventTrigger (ITriggerMonitor monitor);
-            protected abstract ActionTriggerBase GetNewActionTrigger (string tag, Action action);
+            protected abstract ActionTriggerBase GetNewActionTrigger (string tag, Action<IAction> action);
         
             [SetUp]
             public void BeforeEach () {
@@ -77,7 +77,7 @@ namespace CleverCrow.FluidStateMachine.Editors {
                 _monitor = Substitute.For<ITriggerMonitor>();
                 GetEventTrigger(_monitor).Returns(new EventTrigger());
 
-                _actionTrigger = GetNewActionTrigger("Player", () => _result = true);
+                _actionTrigger = GetNewActionTrigger("Player", (action) => _result = true);
                 _actionTrigger.Monitor = _monitor;
                 _actionTrigger.Enter();
 

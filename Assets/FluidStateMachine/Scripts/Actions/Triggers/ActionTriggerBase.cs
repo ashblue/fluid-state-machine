@@ -3,7 +3,7 @@ using System;
 namespace CleverCrow.FluidStateMachine {
     public abstract class ActionTriggerBase : ActionBase {
         private readonly string _tag;
-        private readonly Action _update;
+        private readonly Action<IAction> _update;
         private bool _triggerUpdate;
         private ITriggerMonitor _monitor;
         
@@ -15,7 +15,7 @@ namespace CleverCrow.FluidStateMachine {
             set { _monitor = value; }
         }
 
-        protected ActionTriggerBase (string tag, Action update) {
+        protected ActionTriggerBase (string tag, Action<IAction> update) {
             _tag = tag;
             _update = update;
         }
@@ -30,7 +30,7 @@ namespace CleverCrow.FluidStateMachine {
         protected override void OnUpdate () {
             if (!_triggerUpdate) return;
 
-            _update.Invoke();
+            _update.Invoke(this);
             _triggerUpdate = false;
         }
 

@@ -6,7 +6,7 @@ namespace CleverCrow.FluidStateMachine.Editors {
             [Test]
             public void It_should_trigger_the_Exit_action () {
                 var triggered = false;
-                var actionUpdate = new ActionExit(() => triggered = true);
+                var actionUpdate = new ActionExit((action) => triggered = true);
 
                 actionUpdate.Exit();
                 
