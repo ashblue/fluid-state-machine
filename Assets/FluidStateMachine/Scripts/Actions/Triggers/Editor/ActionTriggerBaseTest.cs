@@ -2,6 +2,7 @@ using System;
 using NSubstitute;
 using NUnit.Framework;
 using UnityEngine;
+using UnityEngine.Events;
 using Object = UnityEngine.Object;
 
 namespace CleverCrow.FluidStateMachine.Editors {
@@ -54,6 +55,68 @@ namespace CleverCrow.FluidStateMachine.Editors {
                 actionTriggerAlt.PopulateMonitor();
                 
                 Assert.AreEqual(1, _owner.GetComponents<ITriggerMonitor>().Length);
+            }
+        }
+        
+        public abstract class UpdateMethod {
+            private ICollider _collider;
+            private ITriggerMonitor _monitor;
+            private ActionTriggerBase _actionTrigger;
+            private bool _result;
+
+            private class EventTrigger : UnityEvent<ICollider> {
+            }
+
+            protected abstract UnityEvent<ICollider> GetEventTrigger (ITriggerMonitor monitor);
+            protected abstract ActionTriggerBase GetNewActionTrigger (string tag, Action action);
+        
+            [SetUp]
+            public void BeforeEach () {
+                _result = false;
+                
+                _monitor = Substitute.For<ITriggerMonitor>();
+                GetEventTrigger(_monitor).Returns(new EventTrigger());
+
+                _actionTrigger = GetNewActionTrigger("Player", () => _result = true);
+                _actionTrigger.Monitor = _monitor;
+                _actionTrigger.Enter();
+
+                _collider = Substitute.For<ICollider>();
+                _collider.CompareTag("Player").Returns(true);
+            }
+
+            [Test]
+            public void It_should_trigger_update_logic_if_trigger_fired () {
+                GetEventTrigger(_monitor).Invoke(_collider);
+                _actionTrigger.Update();
+                
+                Assert.IsTrue(_result);
+            }
+            
+            [Test]
+            public void It_should_not_trigger_update_logic_if_no_trigger_fired () {
+                _actionTrigger.Update();
+                
+                Assert.IsFalse(_result);
+            }
+
+            [Test]
+            public void It_should_not_trigger_update_unless_previous_frame_triggered_stay () {
+                GetEventTrigger(_monitor).Invoke(_collider);
+                _actionTrigger.Update();
+                _result = false;
+                _actionTrigger.Update();
+
+                Assert.IsFalse(_result);
+            }
+
+            [Test]
+            public void It_should_not_trigger_if_there_isnt_a_matching_tag_on_the_collider () {
+                _collider.CompareTag("Player").Returns(false);
+                GetEventTrigger(_monitor).Invoke(_collider);
+                _actionTrigger.Update();
+
+                Assert.IsFalse(_result);
             }
         }
     }
