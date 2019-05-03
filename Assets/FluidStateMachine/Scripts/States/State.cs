@@ -20,7 +20,10 @@ namespace CleverCrow.FluidStateMachine {
         }
         
         public ITransition GetTransition (string name) {
-            return _transitions[name];
+            ITransition result;
+            _transitions.TryGetValue(name, out result);
+            
+            return result;
         }
         
         public void Update () {
@@ -43,6 +46,8 @@ namespace CleverCrow.FluidStateMachine {
 
         public void Transition (string id) {
             var transition = GetTransition(id);
+            if (transition == null) return;
+            
             ParentFsm.SetState(transition.Target);
         }
     }

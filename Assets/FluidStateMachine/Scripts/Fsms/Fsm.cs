@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 namespace CleverCrow.FluidStateMachine {
+    [Serializable]
     public class Fsm : IFsm {
         private readonly Dictionary<Enum, IState> _stateDic = new Dictionary<Enum, IState>();
         

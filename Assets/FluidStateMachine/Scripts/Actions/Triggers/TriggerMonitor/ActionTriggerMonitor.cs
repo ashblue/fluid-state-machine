@@ -9,16 +9,28 @@ namespace CleverCrow.FluidStateMachine {
         public UnityEvent<ICollider> EventTriggerEnter { get; } = new EventCollider();
         public UnityEvent<ICollider> EventTriggerExit { get; } = new EventCollider();
 
+        private class ColliderSimple : ICollider {
+            private readonly Collider _collider;
+            
+            public ColliderSimple (Collider collider) {
+                _collider = collider;
+            }
+            
+            public bool CompareTag (string tag) {
+                return _collider.CompareTag(tag);
+            }
+        }
+
         private void OnTriggerStay (Collider other) {
-            EventTriggerStay.Invoke(other as ColliderWrapper);
+            EventTriggerStay.Invoke(new ColliderSimple(other));
         }
 
         private void OnTriggerEnter (Collider other) {
-            EventTriggerEnter.Invoke(other as ColliderWrapper);
+            EventTriggerEnter.Invoke(new ColliderSimple(other));
         }
 
         private void OnTriggerExit (Collider other) {
-            EventTriggerExit.Invoke(other as ColliderWrapper);
+            EventTriggerExit.Invoke(new ColliderSimple(other));
         }
     }
 }

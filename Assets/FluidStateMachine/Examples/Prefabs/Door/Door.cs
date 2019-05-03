@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 namespace CleverCrow.FluidStateMachine.Examples {
@@ -10,7 +9,7 @@ namespace CleverCrow.FluidStateMachine.Examples {
         public bool Close { private get; set; }
         public bool ToggleLock { private get; set; }
 
-        private enum DoorState {
+        public enum DoorState {
             Opened,
             Closed,
         }
@@ -25,14 +24,16 @@ namespace CleverCrow.FluidStateMachine.Examples {
                 .Owner(gameObject)
                 .Default(DoorState.Closed)
                 .State(DoorState.Opened, (open) => {
-                    open.SetTransition("close", DoorState.Closed)
+                    open
+                        .SetTransition("close", DoorState.Closed)
                         .SetAnimatorBool("open", true)
                         .Update((action) => {
                             if (Close) action.Transition("close");
                         });
                 })
                 .State(DoorState.Closed, (close) => {
-                    close.SetTransition("open", DoorState.Opened)
+                    close
+                        .SetTransition("open", DoorState.Opened)
                         .SetAnimatorBool("open", false)
                         .Update((action) => {
                             if (Open && _lock.CurrentState.Id.Equals(LockState.Unlocked)) {
@@ -46,14 +47,16 @@ namespace CleverCrow.FluidStateMachine.Examples {
                 .Owner(gameObject)
                 .Default(LockState.Unlocked)
                 .State(LockState.Locked, (locked) => {
-                    locked.SetTransition("unlock", LockState.Unlocked)
+                    locked
+                        .SetTransition("unlock", LockState.Unlocked)
                         .SetAnimatorBool("lock", true)
                         .Update((action) => {
                             if (ToggleLock) action.Transition("unlock");
                         });
                 })
                 .State(LockState.Unlocked, (unlocked) => {
-                    unlocked.SetTransition("lock", LockState.Locked)
+                    unlocked
+                        .SetTransition("lock", LockState.Locked)
                         .SetAnimatorBool("lock", false)
                         .Update((action) => {
                             if (ToggleLock && _door.CurrentState.Id.Equals(DoorState.Closed)) {
@@ -62,6 +65,10 @@ namespace CleverCrow.FluidStateMachine.Examples {
                         });
                 })
                 .Build();
+        }
+        
+        public void SetDoorTransition (string transition) {
+            _door.CurrentState.Transition(transition);
         }
 
         private void Update () {

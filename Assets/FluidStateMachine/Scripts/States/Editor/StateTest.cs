@@ -79,6 +79,13 @@ namespace CleverCrow.FluidStateMachine.Editors {
 
                 _fsm.Received(1).SetState(StateId.B);
             }
+
+            [Test]
+            public void It_should_silently_fail_if_no_transition_exists () {
+                var state = new State(_fsm, StateId.A);
+                
+                state.Transition("b");
+            }
         }
     }
 }
