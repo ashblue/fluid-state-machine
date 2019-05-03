@@ -4,8 +4,8 @@ namespace CleverCrow.FluidStateMachine.Examples {
     public class Door : MonoBehaviour {
         private IFsm _door;
 
-        public bool open;
-        public bool close;
+        public bool Open { get; set; }
+        public bool Close { get; set; }
 
         private enum DoorState {
             Opened,
@@ -18,16 +18,16 @@ namespace CleverCrow.FluidStateMachine.Examples {
                 .Default(DoorState.Closed)
                 .State(DoorState.Opened, (open) => {
                     open.SetTransition("close", DoorState.Closed)
-                        .SetAnimatorBool("doorOpen", true)
+                        .SetAnimatorBool("open", true)
                         .Update((action) => {
-                            if (close) action.Transition("close");
+                            if (Close) action.Transition("close");
                         });
                 })
                 .State(DoorState.Closed, (close) => {
                     close.SetTransition("open", DoorState.Opened)
-                        .SetAnimatorBool("doorOpen", false)
+                        .SetAnimatorBool("open", false)
                         .Update((action) => {
-                            if (open) action.Transition("open");
+                            if (Open) action.Transition("open");
                         });
                 })
                 .Build();
@@ -36,8 +36,8 @@ namespace CleverCrow.FluidStateMachine.Examples {
         private void Update () {
             _door.Tick();
 
-            open = false;
-            close = false;
+            Open = false;
+            Close = false;
         }
     }
 }
