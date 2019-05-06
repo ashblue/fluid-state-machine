@@ -50,6 +50,7 @@ namespace CleverCrow.FluidStateMachine {
 
             if (defaultState != null) {
                 fsm.SetState(defaultState.id);
+                fsm.DefaultState = fsm.GetState(defaultState.id);
             }
 
             return fsm;

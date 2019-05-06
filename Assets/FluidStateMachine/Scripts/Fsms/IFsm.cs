@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace CleverCrow.FluidStateMachine {
     public interface IFsm {
@@ -8,7 +9,10 @@ namespace CleverCrow.FluidStateMachine {
         void SetState (Enum id);
         GameObject Owner { get; }
         IState CurrentState { get; }
-        
+        IState DefaultState { get; set; }
+        UnityEvent EventExit { get; }
+
         void Tick ();
+        void Reset ();
     }
 }

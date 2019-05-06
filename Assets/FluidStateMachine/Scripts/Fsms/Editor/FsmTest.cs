@@ -69,5 +69,48 @@ namespace CleverCrow.FluidStateMachine.Editors {
                 _state.Received(1).Update();
             }
         }
+
+        public class ResetMethod : FsmTest {
+            [Test]
+            public void It_should_restore_the_default_state () {
+                var stateAlt = Substitute.For<IState>();
+                stateAlt.Id.Returns(StateId.B);
+
+                _fsm.AddState(_state);
+                _fsm.AddState(stateAlt);
+                
+                _fsm.DefaultState = _state;
+                _fsm.SetState(stateAlt.Id);
+                
+                _fsm.Reset();
+                
+                Assert.AreEqual(_state, _fsm.CurrentState);
+            }
+        }
+        
+        public class ExitMethod : FsmTest {
+            [Test]
+            public void It_should_trigger_exit_on_the_current_state () {
+                _fsm.AddState(_state);
+                _fsm.SetState(_state.Id);
+
+                _fsm.Exit();
+                
+                _state.Received(1).Exit();
+            }
+
+            [Test]
+            public void It_should_trigger_the_EventExit () {
+                var result = false;
+                
+                _fsm.AddState(_state);
+                _fsm.SetState(_state.Id);
+
+                _fsm.EventExit.AddListener(() => result = true);
+                _fsm.Exit();
+                
+                Assert.IsTrue(result);
+            }
+        }
     }
 }
