@@ -14,7 +14,7 @@ namespace CleverCrow.FluidStateMachine.Editors {
         [SetUp]
         public void BeforeEach () {
             _fsm = Substitute.For<IFsm>();
-            _builder = new StateBuilder(StateEnum.A);
+            _builder = new StateBuilder {Id = StateEnum.A};
         }
 
         public class BuildMethod : StateBuilderTest {

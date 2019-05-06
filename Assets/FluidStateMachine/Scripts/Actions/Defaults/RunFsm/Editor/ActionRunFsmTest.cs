@@ -113,7 +113,6 @@ namespace CleverCrow.FluidStateMachine.Editors {
                 
                 [Test]
                 public void It_should_restart_nested_fsm_on_rerun () {
-                    var stateEnter = false;
                     var nestedFsm = new FsmBuilder()
                         .Default(StateId.A)
                         .State(StateId.A, (state) => {
