@@ -6,7 +6,7 @@ namespace CleverCrow.FluidStateMachine {
         
         public override string Name => "Run FSM";
 
-        public ActionRunFsm (IFsm fsm, string exitTransition) {
+        public ActionRunFsm (string exitTransition, IFsm fsm) {
             _fsm = fsm;
             _exitTransition = exitTransition;
         }

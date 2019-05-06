@@ -32,6 +32,7 @@ namespace CleverCrow.FluidStateMachine {
         }
 
         public void Tick () {
+            if (CurrentState == null) SetState(DefaultState.Id);
             CurrentState?.Update();
         }
 
@@ -41,6 +42,7 @@ namespace CleverCrow.FluidStateMachine {
 
         public void Exit () {
             CurrentState.Exit();
+            CurrentState = null;
             EventExit.Invoke();
         }
     }

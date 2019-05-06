@@ -14,5 +14,6 @@ namespace CleverCrow.FluidStateMachine {
 
         void Tick ();
         void Reset ();
+        void Exit ();
     }
 }

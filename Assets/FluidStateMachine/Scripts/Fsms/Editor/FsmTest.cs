@@ -68,6 +68,17 @@ namespace CleverCrow.FluidStateMachine.Editors {
 
                 _state.Received(1).Update();
             }
+
+            [Test]
+            public void It_should_set_the_CurrentState_with_DefaultState_if_state_is_null () {
+                _fsm.AddState(_state);
+                _fsm.DefaultState = _state;
+                
+                _fsm.Tick();
+                
+                _state.Received(1).Enter();
+                _state.Received(1).Update();
+            }
         }
 
         public class ResetMethod : FsmTest {
@@ -110,6 +121,16 @@ namespace CleverCrow.FluidStateMachine.Editors {
                 _fsm.Exit();
                 
                 Assert.IsTrue(result);
+            }
+
+            [Test]
+            public void It_should_clear_the_current_state () {
+                _fsm.AddState(_state);
+                _fsm.SetState(_state.Id);
+
+                _fsm.Exit();
+                
+                Assert.IsNull(_fsm.CurrentState);
             }
         }
     }

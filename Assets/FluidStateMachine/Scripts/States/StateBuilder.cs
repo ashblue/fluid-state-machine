@@ -117,6 +117,16 @@ namespace CleverCrow.FluidStateMachine {
             return this;
         }
         
+        public StateBuilder RunFsm (string exitTransition, IFsm fsm) {
+            _actions.Add(new ActionRunFsm(exitTransition, fsm));
+            return this;
+        }
+        
+        public StateBuilder FsmExit () {
+            _actions.Add(new ActionFsmExit());
+            return this;
+        }
+        
         public IState Build (IFsm fsm) {
             var state = new State(fsm, _id);
             
