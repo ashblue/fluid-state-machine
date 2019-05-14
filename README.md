@@ -61,6 +61,28 @@ To get the latest build simply grab a copy from the [releases](https://github.co
 
 CODE COMING SOON
 
+## Table of Contents
+
+* [Getting Started](#getting-started)
+  + [Examples](#examples)
+  + [Releases](#releases)
+* [Action Library](#action-library)
+  + [Defaults](#defaults)
+    - [Enter](#enter)
+    - [Exit](#exit)
+    - [Update](#update)
+    - [RunFsm](#runfsm)
+  + [Triggers](#triggers)
+    - [Enter](#enter-1)
+    - [Exit](#exit-1)
+    - [Stay](#stay)
+  + [Animators](#animators)
+    - [Set Animator Bool](#set-animator-bool)
+    - [Set Animator Float](#set-animator-float)
+    - [Set Animator Int](#set-animator-int)
+    - [Set Animator Trigger](#set-animator-trigger)
+* [Creating Custom Actions](#creating-custom-actions)
+
 ## Action Library
 
 Pre-made actions included in this library are as follows.
@@ -107,7 +129,9 @@ Used to run a nested FSM inside of a state. This action will continue running un
 var nestedFsm = new FsmBuilder()
     .Default(OtherStateId.A)
     .State(OtherStateId.A, (state) => {
-        state.Enter((action) => stateEnter = true);
+        state.Enter((action) => Debug.Log("Nested FSM triggered"));
+        // This will notify the fsm that triggered nestedFsm to stop running it
+        state.Update((action) => action.ParentState.ParentFsm.Exit());
     })
     .Build();
 
@@ -115,14 +139,13 @@ var fsm = new FsmBuilder()
     .Default(StateId.A)
     .State(StateId.A, (state) => {
         state.SetTransition("next", StateId.B);
+        // First argument is the transition triggered when `nestedFsm.Exit()` is detected
         state.RunFsm("next", nestedFsm);
     })
-    // Runs when the nested FSM is complete
     .State(StateId.B, (state) => {
-        state.Enter(() => Debug.Log("Success"));
+        state.Enter((action) => Debug.Log("Success"));
     })
     .Build();
-})
 ```
 
 ### Triggers
@@ -131,9 +154,33 @@ Hook's Unity's collider trigger system. Note that a collider component set to tr
 
 #### Enter
 
+Logic fired when trigger is entered with a specific tag.
+
+```c#
+.State(MyEnum.MyState, (state) => {
+    state.TriggerEnter("Player", (action) => Debug.Log("Code goes here"));
+})
+```
+
 #### Exit
 
+Logic fired when trigger is exited with a specific tag.
+
+```c#
+.State(MyEnum.MyState, (state) => {
+    state.TriggerExit("Player", (action) => Debug.Log("Code goes here"));
+})
+```
+
 #### Stay
+
+Logic fired when trigger is exited with a specific tag.
+
+```c#
+.State(MyEnum.MyState, (state) => {
+    state.TriggerExit("Player", (action) => Debug.Log("Code goes here"));
+})
+```
 
 ### Animators
 
@@ -141,24 +188,118 @@ Talks to the current Animator. Note that an Animator component must be included 
 
 #### Set Animator Bool
 
+Sets an animator bool by string.
+
+```c#
+.State(MyEnum.MyState, (state) => {
+    state.SetAnimatorBool("myBool", true);
+})
+```
+
 #### Set Animator Float
+
+Sets an animator float by string.
+
+```c#
+.State(MyEnum.MyState, (state) => {
+    state.SetAnimatorFloat("myFloat", 2.2);
+})
+```
 
 #### Set Animator Int
 
+Sets an animator int by string.
+
+```c#
+.State(MyEnum.MyState, (state) => {
+    state.SetAnimatorInt("myInt", 7);
+})
+```
+
 #### Set Animator Trigger
 
-## Creating re-usable FSMs
+Sets an animator trigger by string.
+
+```c#
+.State(MyEnum.MyState, (state) => {
+    state.SetAnimatorTrigger("myInt");
+})
+```
 
 ## Creating Custom Actions
 
-Here we'll cover how to create a custom action and use it in a way that gets free updates from this library.
-
-Create a new action.
-
-Create a custom action builder.
-
-Create a custom fsm builder.
-
-How to use it.
+Here we'll cover how to create a custom action and use it in a way that gets free updates from this library. It's important you create new actions this way to prevent new versions from causing errors.
 
 
+The first thing you'll need to do is create a **custom action**.
+
+```c#
+using UnityEngine;
+using CleverCrow.FluidStateMachine;
+
+public class MyAction : ActionBase {
+    public MyAction (string newName) {
+        Name = newName;
+    }
+
+    // Triggers when entering the state
+    protected override void OnEnter () {
+        Debug.Log($"Custom action {Name} activated");
+    }
+    
+    // Triggers when exiting the state
+    protected override void OnExit () {
+    }
+    
+    // Runs every time `Fsm.Tick()` is called
+    protected override void OnUpdate () {
+    }
+}
+```
+
+After the custom action is complete you'll need to create a **state builder** that inherits from the default state builder class.
+
+```c#
+using CleverCrow.FluidStateMachine;
+
+public class CustomStateBuilder : StateBuilderBase<CustomStateBuilder> {
+    public CustomStateBuilder MyAction (string newName) {
+        _actions.Add(new MyAction(newName));
+        return this;
+    }
+}
+```
+
+The state builder must then be plugged into an **FSM builder** class to properly encapsulate newly created states.
+
+```c#
+using CleverCrow.FluidStateMachine;
+
+public class FsmBuilderCustom : FsmBuilderBase<FsmBuilderCustom, CustomStateBuilder> {
+}
+```
+
+You've created a custom extendable FSM and state class that can be used anywhere in your code base. Try it out with a snippet like this.
+
+```c#
+using UnityEngine;
+using CleverCrow.FluidStateMachine;
+
+public class FsmBuilderCustomUsage : MonoBehaviour {
+    private enum StateId {
+        A,
+    }
+    
+    private void Awake () {
+        var fsmBuilder = new FsmBuilderCustom()
+            .State(StateId.A, (state) => {
+                state
+                    .MyAction("custom name")
+                    .Update((action) => { });
+            });
+        
+        var fsm = fsmBuilder.Build();
+        fsm.Tick();
+    }
+}
+```
