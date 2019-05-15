@@ -38,7 +38,21 @@ namespace CleverCrow.FluidStateMachine.Editors {
                     .State(StateEnum.A, (a) => {})
                     .Build();
                 
+                fsm.Tick();
+                
                 Assert.AreEqual(fsm.GetState(StateEnum.A), fsm.CurrentState);
+            }
+            
+            [Test]
+            public void It_should_set_the_default_property_on_the_fsm () {
+                var fsm = _builder
+                    .Default(StateEnum.A)
+                    .State(StateEnum.A, (a) => {})
+                    .Build();
+                
+                fsm.Tick();
+
+                Assert.AreEqual(fsm.DefaultState, fsm.CurrentState);
             }
         }
         
