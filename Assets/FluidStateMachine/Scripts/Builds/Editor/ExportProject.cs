@@ -10,13 +10,14 @@ namespace CleverCrow.FluidStateMachine.Editors {
             var files = GetFiles();
             var path = $"{Application.dataPath}/../FluidStateMachine.unitypackage";
             
-            AssetDatabase.ExportPackage(files.ToArray(), $"{path}/Fluid Behavior Tree.unitypackage");
+            Debug.Log($"Exporting to {path}");
+            AssetDatabase.ExportPackage(files.ToArray(), path);
         }
 
         private static List<string> GetFiles () {
             return AssetDatabase
                 .FindAssets("", new[] {
-                    "Assets/FluidBehaviorTree",
+                    "Assets/FluidStateMachine",
                 }).ToList()
                 .Select(AssetDatabase.GUIDToAssetPath)
                 .Where(file => !file.Contains("Test.cs")).ToList();
