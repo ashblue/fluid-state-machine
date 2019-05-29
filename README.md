@@ -8,6 +8,10 @@ Fluid State Machine is a Unity plugin aimed at creating state machines in pure c
 
 Get the [latest release](https://github.com/ashblue/fluid-state-machine/releases).
 
+## Support
+
+Join the [Discord Community](https://discord.gg/8QHFfzn) if you have questions or need help.
+
 ## Getting Started
 
 State machines are formatted as so. For example here we have a door that demonstrates a simple open and close mechanism.
@@ -55,17 +59,8 @@ public class Door : MonoBehaviour {
 
 More complex usage examples can be found in `Assets/FluidStateMachine/Examples` you'll find multiple example projects and code snippets. If you plan on running any of the example scenes you'll want to read `Assets/FluidStateMachine/Examples/README.md` to add any missing dependencies.
 
-### Releases
-
-To get the latest build simply grab a copy from the [releases](https://github.com/ashblue/fluid-state-machine/releases) page. If you're using Node.js you can keep this package up to date by installing it with the following code via NPM. If you use the NPM package it's strongly recommended to exclude the built files `Assets/Plugins/FluidStateMachine` from version control.
-
-CODE COMING SOON
-
 ## Table of Contents
 
-* [Getting Started](#getting-started)
-  + [Examples](#examples)
-  + [Releases](#releases)
 * [Action Library](#action-library)
   + [Defaults](#defaults)
     - [Enter](#enter)
