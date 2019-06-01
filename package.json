@@ -28,9 +28,17 @@
     "url": "https://github.com/ashblue/fluid-state-machine/issues"
   },
   "homepage": "https://github.com/ashblue/fluid-state-machine#readme",
+  "husky": {
+    "hooks": {
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
+    }
+  },
   "devDependencies": {
+    "@commitlint/cli": "^8.0.0",
+    "@commitlint/config-conventional": "^8.0.0",
     "commitizen": "3.1.1",
-    "cz-conventional-changelog": "^2.1.0"
+    "cz-conventional-changelog": "^2.1.0",
+    "husky": "^2.3.0"
   },
   "config": {
     "commitizen": {
