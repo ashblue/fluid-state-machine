@@ -77,6 +77,7 @@ More complex usage examples can be found in `Assets/FluidStateMachine/Examples` 
     - [Set Animator Int](#set-animator-int)
     - [Set Animator Trigger](#set-animator-trigger)
 * [Creating Custom Actions](#creating-custom-actions)
+* [Development](#development)
 
 ## Action Library
 
@@ -297,4 +298,22 @@ public class FsmBuilderCustomUsage : MonoBehaviour {
         fsm.Tick();
     }
 }
+```
+
+## Development
+
+If you want to work on the code in this repo you'll need to install Node.js and Git. Then run the following command to setup Node.js from the repo's root.
+
+```bash
+npm install
+```
+
+### Making Commits
+
+All commits should be made using [Commitizen](https://github.com/commitizen/cz-cli) (which is automatically installed when running `npm install`). Commits are automatically compiled to version numbers on release so this is very important. PRs that don't have Commitizen based commits will be rejected.
+
+To make a commit type the following into a terminal from the root.
+
+```bash
+npm run commit
 ```
