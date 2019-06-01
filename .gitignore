@@ -16,6 +16,9 @@
 # TextMesh Pro files
 [Aa]ssets/TextMesh*Pro/
 
+JetBrains
+/Assets/Plugins/Editor/JetBrains.meta
+
 # Visual Studio cache directory
 .vs/
 
@@ -55,3 +58,5 @@ sysinfo.txt
 # Crashlytics generated file
 crashlytics-build.properties
 
+# Node.js
+node_modules
