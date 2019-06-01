@@ -1,0 +1,40 @@
+{
+  "name": "com.fluid.state-machine",
+  "version": "0.0.0",
+  "unity": "2018.1",
+  "displayName": "Fluid State Machine",
+  "description": "A finite state machine micro-framework for Unity3D focused on a pure code implementation.",
+  "main": "create-dist.js",
+  "scripts": {
+    "commit": "git-cz"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ashblue/fluid-state-machine.git"
+  },
+  "keywords": [
+    "unity3d",
+    "fsm",
+    "finite-state-machine",
+    "unity3d-plugin"
+  ],
+  "author": {
+    "name": "Ash Blue",
+    "email": "ash@blueashes.com",
+    "url": "https://twitter.com/ashbluewd"
+  },
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ashblue/fluid-state-machine/issues"
+  },
+  "homepage": "https://github.com/ashblue/fluid-state-machine#readme",
+  "devDependencies": {
+    "commitizen": "3.1.1",
+    "cz-conventional-changelog": "^2.1.0"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
+  }
+}
