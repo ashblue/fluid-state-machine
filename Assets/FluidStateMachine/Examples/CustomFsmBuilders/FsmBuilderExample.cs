@@ -1,18 +1,19 @@
 using UnityEngine;
 
+// @TODO Move these into a state and fsm extension test
 namespace CleverCrow.FluidStateMachine.Examples {
-    public class CustomStateBuilder : StateBuilderBase<CustomStateBuilder> {
-        public CustomStateBuilder MyCustomStateBuilderMethod () {
-            _actions.Add(new ActionEnter((action) => {
+    public static class StateBuilderExtensions {
+        public static StateBuilder MyCustomStateBuilderMethod (this StateBuilder builder) {
+            return builder.AddAction(new ActionEnter((action) => {
                 Debug.Log("Registered");
             }));
-            return this;
         }
     }
-    
-    public class FsmBuilderExample : FsmBuilderBase<FsmBuilderExample, CustomStateBuilder> {
-        public void MyCustomFsmMethod () {
+
+    public static class FsmBuilderExtensions {
+        public static FsmBuilder MyCustomFsmMethod (this FsmBuilder builder) {
             Debug.Log("Custom method");
+            return builder;
         }
     }
 
@@ -22,7 +23,7 @@ namespace CleverCrow.FluidStateMachine.Examples {
         }
         
         public void Init () {
-            var fsmBuilder = new FsmBuilderExample()
+            var fsmBuilder = new FsmBuilder()
                 .State(StateId.A, (state) => {
                     state
                         .MyCustomStateBuilderMethod()
