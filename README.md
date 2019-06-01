@@ -14,7 +14,7 @@ Join the [Discord Community](https://discord.gg/8QHFfzn) if you have questions o
 
 ## Getting Started
 
-State machines are formatted as so. For example here we have a door that demonstrates a simple open and close mechanism.
+Here we have a door that demonstrates a simple open and close mechanism. By changing the `Open` variable, the state machine will automatically change the door's state.
 
 ```c#
 using UnityEngine;
@@ -31,26 +31,67 @@ public class Door : MonoBehaviour {
 
     private void Start () {
         _door = new FsmBuilder()
+            // Declares the FSMs associated GameObject
             .Owner(gameObject)
+            
+            // What is the default starting state?
             .Default(DoorState.Closed)
+            
+            // Creates a state called DoorState.Closed and assigns new actions to it
             .State(DoorState.Closed, (close) => {
                 close.SetTransition("open", DoorState.Opened)
                     .Update((action) => {
                         if (Open) action.Transition("open");
                     });
             })
+            
             .State(DoorState.Opened, (open) => {
                 open.SetTransition("close", DoorState.Closed)
                     .Update((action) => {
                         if (!Open) action.Transition("close");
                     });
             })
+            
             .Build();
     }
 
     private void Update () {
         // Update the state machine every frame
         _door.Tick();
+    }
+}
+```
+
+If you want to write you own custom state actions to bundle up complex chunks of code. You can easily do so with [C# extensions](https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/classes-and-structs/extension-methods). This allows you to adjust the functionality of Fluid State Machine on a per project basis or write your own custom extension library for it. All without forking the core library, which allows you to still get future version updates.
+
+```c#
+using CleverCrow.FluidStateMachine;
+
+public class MyCustomAction : ActionBase {
+    protected override void OnUpdate () {
+        // Custom logic goes here
+    }
+}
+
+public static class StateBuilderExtensions {
+    public static StateBuilder MyCustomAction (this StateBuilder builder) {
+        return builder.AddAction(new MyCustomAction());
+    }
+}
+
+public class ExampleUsage {
+    private enum StateId {
+        A,
+    }
+
+    public void Init () {
+        var fsmBuilder = new FsmBuilder()
+            .State(StateId.A, (state) => {
+                state
+                    .MyCustomAction()
+                    .Update((action) => { });
+            })
+            .Build();
     }
 }
 ```
@@ -127,7 +168,7 @@ var nestedFsm = new FsmBuilder()
     .State(OtherStateId.A, (state) => {
         state.Enter((action) => Debug.Log("Nested FSM triggered"));
         // This will notify the fsm that triggered nestedFsm to stop running it
-        state.Update((action) => action.ParentState.ParentFsm.Exit());
+        state.FsmExit();
     })
     .Build();
 
@@ -170,11 +211,11 @@ Logic fired when trigger is exited with a specific tag.
 
 #### Stay
 
-Logic fired when trigger is exited with a specific tag.
+Logic fired when Unity's stay trigger activates.
 
 ```c#
 .State(MyEnum.MyState, (state) => {
-    state.TriggerExit("Player", (action) => Debug.Log("Code goes here"));
+    state.TriggerStay("Player", (action) => Debug.Log("Code goes here"));
 })
 ```
 
@@ -253,29 +294,19 @@ public class MyAction : ActionBase {
 }
 ```
 
-After the custom action is complete you'll need to create a **state builder** that inherits from the default state builder class.
+After the custom action is complete you'll need to create a `StateBuilder` C# extension that adds it. Then you'll be able to call it as if it's a native method on the library.
 
 ```c#
 using CleverCrow.FluidStateMachine;
 
-public class CustomStateBuilder : StateBuilderBase<CustomStateBuilder> {
-    public CustomStateBuilder MyAction (string newName) {
-        _actions.Add(new MyAction(newName));
-        return this;
+public static class StateBuilderExtensions {
+    public static StateBuilder MyAction (this StateBuilder builder, string name) {
+        return builder.AddAction(new MyAction(name));
     }
 }
 ```
 
-The state builder must then be plugged into an **FSM builder** class to properly encapsulate newly created states.
-
-```c#
-using CleverCrow.FluidStateMachine;
-
-public class FsmBuilderCustom : FsmBuilderBase<FsmBuilderCustom, CustomStateBuilder> {
-}
-```
-
-You've created a custom extendable FSM and state class that can be used anywhere in your code base. Try it out with a snippet like this.
+That's it! You're done. Try it out with this snippet.
 
 ```c#
 using UnityEngine;
@@ -287,7 +318,7 @@ public class FsmBuilderCustomUsage : MonoBehaviour {
     }
     
     private void Awake () {
-        var fsmBuilder = new FsmBuilderCustom()
+        var fsmBuilder = new FsmBuilder()
             .State(StateId.A, (state) => {
                 state
                     .MyAction("custom name")
