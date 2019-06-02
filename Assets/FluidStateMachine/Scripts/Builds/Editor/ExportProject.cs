@@ -3,7 +3,7 @@ using UnityEditor;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace CleverCrow.FluidStateMachine.Editors {
+namespace CleverCrow.Fluid.FSMs.Editors {
     public class ExportProject {
         [MenuItem("Export/Build Fluid State Machine")]
         static void BuildProject () {

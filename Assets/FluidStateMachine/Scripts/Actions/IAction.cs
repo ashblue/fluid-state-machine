@@ -1,4 +1,4 @@
-namespace CleverCrow.FluidStateMachine {
+namespace CleverCrow.Fluid.FSMs {
     public interface IAction {
         string Name { get; }
         IState ParentState { get; set; }

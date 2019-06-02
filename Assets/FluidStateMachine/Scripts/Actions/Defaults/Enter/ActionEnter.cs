@@ -1,6 +1,6 @@
 using System;
 
-namespace CleverCrow.FluidStateMachine {
+namespace CleverCrow.Fluid.FSMs {
     /// <summary>
     /// An action triggered when the state is entered
     /// </summary>

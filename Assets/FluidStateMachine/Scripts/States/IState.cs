@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace CleverCrow.FluidStateMachine {
+namespace CleverCrow.Fluid.FSMs {
     public interface IState {
         Enum Id { get; }
         List<IAction> Actions { get; }

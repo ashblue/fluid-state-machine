@@ -1,6 +1,6 @@
 using System;
 
-namespace CleverCrow.FluidStateMachine {
+namespace CleverCrow.Fluid.FSMs {
     public class ActionTriggerEnter : ActionTriggerBase {
         public ActionTriggerEnter (string tag, Action<IAction> update) : base(tag, update) {
         }

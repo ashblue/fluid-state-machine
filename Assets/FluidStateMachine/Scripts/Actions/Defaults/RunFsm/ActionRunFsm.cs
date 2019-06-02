@@ -1,4 +1,4 @@
-namespace CleverCrow.FluidStateMachine {
+namespace CleverCrow.Fluid.FSMs {
     /// <summary>
     /// Run a nested FSM. Triggers exit transition when nested FSM triggers an Exit event.
     /// </summary>

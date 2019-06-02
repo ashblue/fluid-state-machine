@@ -1,6 +1,6 @@
 using System;
 
-namespace CleverCrow.FluidStateMachine {
+namespace CleverCrow.Fluid.FSMs {
     public interface ITransition {
         string Name { get; }
         Enum Target { get; }

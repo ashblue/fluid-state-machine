@@ -1,7 +1,7 @@
 using System;
 using UnityEngine.Events;
 
-namespace CleverCrow.FluidStateMachine.Editors {
+namespace CleverCrow.Fluid.FSMs.Editors {
     public class ActionTriggerStayTest {
         public class UpdateMethod : ActionTriggerBaseTest.UpdateMethod {
             protected override UnityEvent<ICollider> GetEventTrigger (ITriggerMonitor monitor) {

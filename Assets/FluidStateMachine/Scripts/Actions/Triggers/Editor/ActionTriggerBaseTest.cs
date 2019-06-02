@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using Object = UnityEngine.Object;
 
-namespace CleverCrow.FluidStateMachine.Editors {
+namespace CleverCrow.Fluid.FSMs.Editors {
     public class ActionTriggerBaseTest {
         private class TriggerTest : ActionTriggerBase {
             public TriggerTest (string tag, Action<IAction> update) : base(tag, update) {
