@@ -112,7 +112,7 @@ Fluid State Machine is used through [Unity's Package Manager](https://docs.unity
     }
   ],
   "dependencies": {
-    "com.fluid.state-machine": "2.0.1"
+    "com.fluid.state-machine": "2.0.0"
   }
 }
 ```
