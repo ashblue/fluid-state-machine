@@ -1,4 +1,4 @@
-namespace CleverCrow.FluidStateMachine {
+namespace CleverCrow.Fluid.FSMs {
     public class ActionSetAnimatorInt : ActionSetAnimatorVariableBase {
         private readonly string _paramName;
         private readonly int _value;

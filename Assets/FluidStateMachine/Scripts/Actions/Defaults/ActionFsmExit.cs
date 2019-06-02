@@ -1,4 +1,4 @@
-namespace CleverCrow.FluidStateMachine {
+namespace CleverCrow.Fluid.FSMs {
     /// <summary>
     /// Triggers the Exit method on the current parent FSM
     /// </summary>

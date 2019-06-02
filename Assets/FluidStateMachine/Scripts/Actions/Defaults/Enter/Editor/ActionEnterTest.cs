@@ -1,6 +1,6 @@
 using NUnit.Framework;
 
-namespace CleverCrow.FluidStateMachine.Editors {
+namespace CleverCrow.Fluid.FSMs.Editors {
     public class ActionEnterTest {
         public class UpdateMethod {
             [Test]

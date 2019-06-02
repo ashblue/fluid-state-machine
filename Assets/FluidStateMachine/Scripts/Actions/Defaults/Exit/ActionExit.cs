@@ -1,6 +1,6 @@
 using System;
 
-namespace CleverCrow.FluidStateMachine {
+namespace CleverCrow.Fluid.FSMs {
     public class ActionExit : ActionBase {
         private readonly Action<IAction> _exit;
         

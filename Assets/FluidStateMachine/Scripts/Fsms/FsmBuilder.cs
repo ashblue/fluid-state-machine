@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace CleverCrow.FluidStateMachine {
+namespace CleverCrow.Fluid.FSMs {
     public class FsmBuilder {
         private readonly List<StateData> _stateData = new List<StateData>();
         private GameObject _owner;

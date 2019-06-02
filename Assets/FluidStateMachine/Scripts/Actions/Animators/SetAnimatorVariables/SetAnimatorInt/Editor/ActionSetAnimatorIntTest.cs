@@ -3,7 +3,7 @@ using NUnit.Framework;
 using UnityEditor.Animations;
 using UnityEngine;
 
-namespace CleverCrow.FluidStateMachine.Editors {
+namespace CleverCrow.Fluid.FSMs.Editors {
     public class ActionSetAnimatorIntTest {
         private GameObject _go;
 

@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace CleverCrow.FluidStateMachine.Examples {
+namespace CleverCrow.Fluid.FSMs.Examples {
     public class Door : MonoBehaviour {
         private IFsm _door;
         private IFsm _lock;

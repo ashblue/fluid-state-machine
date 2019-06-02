@@ -1,6 +1,6 @@
 using UnityEngine.Events;
 
-namespace CleverCrow.FluidStateMachine {
+namespace CleverCrow.Fluid.FSMs {
     public interface ITriggerMonitor {
         UnityEvent<ICollider> EventTriggerStay { get; }
         UnityEvent<ICollider> EventTriggerEnter { get; }

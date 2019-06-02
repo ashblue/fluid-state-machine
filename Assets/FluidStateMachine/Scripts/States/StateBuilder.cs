@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace CleverCrow.FluidStateMachine {
+namespace CleverCrow.Fluid.FSMs {
     public class StateBuilder {
         private readonly List<ITransition> _transitions = new List<ITransition>();
         private readonly List<IAction> _actions = new List<IAction>();

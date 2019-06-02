@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace CleverCrow.FluidStateMachine {
+namespace CleverCrow.Fluid.FSMs {
     public class State : IState {
         private readonly Dictionary<string, ITransition> _transitions = new Dictionary<string, ITransition>();
         

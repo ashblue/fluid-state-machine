@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace CleverCrow.FluidStateMachine {
+namespace CleverCrow.Fluid.FSMs {
     public abstract class ActionSetAnimatorVariableBase : ActionBase {
         protected Animator _animator;
 

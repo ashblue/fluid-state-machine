@@ -2,7 +2,7 @@ using NSubstitute;
 using NUnit.Framework;
 using UnityEngine.Events;
 
-namespace CleverCrow.FluidStateMachine.Editors {
+namespace CleverCrow.Fluid.FSMs.Editors {
     public class ActionRunFsmTest {
         private IFsm _fsm;
         

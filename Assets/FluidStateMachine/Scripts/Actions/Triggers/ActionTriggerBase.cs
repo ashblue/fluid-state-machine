@@ -1,6 +1,6 @@
 using System;
 
-namespace CleverCrow.FluidStateMachine {
+namespace CleverCrow.Fluid.FSMs {
     public abstract class ActionTriggerBase : ActionBase {
         private readonly string _tag;
         private readonly Action<IAction> _update;

@@ -1,6 +1,6 @@
 using NUnit.Framework;
 
-namespace CleverCrow.FluidStateMachine.Editors {
+namespace CleverCrow.Fluid.FSMs.Editors {
     public static class StateBuilderExtensions {
         public static StateBuilder MyCustomStateBuilderMethod (this StateBuilder builder) {
             return builder.AddAction(new ActionEnter((action) => { }));

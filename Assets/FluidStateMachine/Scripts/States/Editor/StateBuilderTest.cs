@@ -1,7 +1,7 @@
 using NSubstitute;
 using NUnit.Framework;
 
-namespace CleverCrow.FluidStateMachine.Editors {
+namespace CleverCrow.Fluid.FSMs.Editors {
     public class StateBuilderTest {
         private StateBuilder _builder;
         private IFsm _fsm;

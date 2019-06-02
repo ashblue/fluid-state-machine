@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace CleverCrow.FluidStateMachine.Examples {
+namespace CleverCrow.Fluid.FSMs.Examples {
     [RequireComponent(typeof(CharacterController))]
     public class CharacterExample : MonoBehaviour {
         CharacterController characterController;

@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.Events;
 
-namespace CleverCrow.FluidStateMachine {
+namespace CleverCrow.Fluid.FSMs {
     public class ActionTriggerMonitor : MonoBehaviour, ITriggerMonitor {
         private class EventCollider : UnityEvent<ICollider> {}
 

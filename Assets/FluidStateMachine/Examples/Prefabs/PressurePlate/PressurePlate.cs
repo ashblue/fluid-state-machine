@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.Events;
 
-namespace CleverCrow.FluidStateMachine.Examples {
+namespace CleverCrow.Fluid.FSMs.Examples {
     public class PressurePlate : MonoBehaviour {
         private IFsm _fsm;
         const string PLAYER_TAG = "Player";
