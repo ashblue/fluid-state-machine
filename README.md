@@ -1,4 +1,4 @@
-# Fluid State Machine
+# Fluid State Machine [![Build Status](https://travis-ci.org/ashblue/fluid-state-machine.svg?branch=master)](https://travis-ci.org/ashblue/fluid-state-machine)
 
 Fluid State Machine is a Unity plugin aimed at creating state machines in pure code. It allows state actions to be re-used and customized on a per-project basis.
 
@@ -6,11 +6,11 @@ Fluid State Machine is a Unity plugin aimed at creating state machines in pure c
 * Heavily tested with TDD
 * Open source and free
 
-Get the [latest release](https://github.com/ashblue/fluid-state-machine/releases).
-
 ## Support
 
 Join the [Discord Community](https://discord.gg/8QHFfzn) if you have questions or need help.
+
+See upcoming features and development progress on the [Trello Board](https://trello.com/b/4EXulH1t/fluid-state-machine).
 
 ## Getting Started
 
@@ -95,6 +95,29 @@ public class ExampleUsage {
     }
 }
 ```
+
+### Installation
+
+Fluid State Machine is used through [Unity's Package Manager](https://docs.unity3d.com/Manual/CustomPackages.html). In order to use it you'll need to add the following lines to your `Packages/manifest.json` file. After that you'll be able to visually control what specific version of Fluid Behavior Tree you're using from the package manager window in Unity. This has to be done so your Unity editor can connect to NPM's package registry.
+
+```json
+{
+  "scopedRegistries": [
+    {
+      "name": "NPM",
+      "url": "https://registry.npmjs.org",
+      "scopes": [
+        "com.fluid"
+      ]
+    }
+  ],
+  "dependencies": {
+    "com.fluid.state-machine": "2.0.1"
+  }
+}
+```
+
+Archives of specific versions and release notes are available on the [releases page](https://github.com/ashblue/fluid-state-machine/releases).
 
 ### Examples
 
