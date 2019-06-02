@@ -1,4 +1,4 @@
-# Fluid State Machine
+# Fluid State Machine [![Build Status](https://travis-ci.org/ashblue/fluid-state-machine.svg?branch=master)](https://travis-ci.org/ashblue/fluid-state-machine)
 
 Fluid State Machine is a Unity plugin aimed at creating state machines in pure code. It allows state actions to be re-used and customized on a per-project basis.
 
@@ -6,15 +6,19 @@ Fluid State Machine is a Unity plugin aimed at creating state machines in pure c
 * Heavily tested with TDD
 * Open source and free
 
-Get the [latest release](https://github.com/ashblue/fluid-state-machine/releases).
+## Support
+
+Join the [Discord Community](https://discord.gg/8QHFfzn) if you have questions or need help.
+
+See upcoming features and development progress on the [Trello Board](https://trello.com/b/4EXulH1t/fluid-state-machine).
 
 ## Getting Started
 
-State machines are formatted as so. For example here we have a door that demonstrates a simple open and close mechanism.
+Here we have a door that demonstrates a simple open and close mechanism. By changing the `Open` variable, the state machine will automatically change the door's state.
 
 ```c#
 using UnityEngine;
-using CleverCrow.FluidStateMachine;
+using CleverCrow.Fluid.FSMs;
 
 public class Door : MonoBehaviour {
     private IFsm _door;
@@ -27,20 +31,27 @@ public class Door : MonoBehaviour {
 
     private void Start () {
         _door = new FsmBuilder()
+            // Declares the FSMs associated GameObject
             .Owner(gameObject)
+            
+            // What is the default starting state?
             .Default(DoorState.Closed)
+            
+            // Creates a state called DoorState.Closed and assigns new actions to it
             .State(DoorState.Closed, (close) => {
                 close.SetTransition("open", DoorState.Opened)
                     .Update((action) => {
                         if (Open) action.Transition("open");
                     });
             })
+            
             .State(DoorState.Opened, (open) => {
                 open.SetTransition("close", DoorState.Closed)
                     .Update((action) => {
                         if (!Open) action.Transition("close");
                     });
             })
+            
             .Build();
     }
 
@@ -51,21 +62,69 @@ public class Door : MonoBehaviour {
 }
 ```
 
+If you want to write you own custom state actions to bundle up complex chunks of code. You can easily do so with [C# extensions](https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/classes-and-structs/extension-methods). This allows you to adjust the functionality of Fluid State Machine on a per project basis or write your own custom extension library for it. All without forking the core library, which allows you to still get future version updates.
+
+```c#
+using CleverCrow.Fluid.FSMs;
+
+public class MyCustomAction : ActionBase {
+    protected override void OnUpdate () {
+        // Custom logic goes here
+    }
+}
+
+public static class StateBuilderExtensions {
+    public static StateBuilder MyCustomAction (this StateBuilder builder) {
+        return builder.AddAction(new MyCustomAction());
+    }
+}
+
+public class ExampleUsage {
+    private enum StateId {
+        A,
+    }
+
+    public void Init () {
+        var fsmBuilder = new FsmBuilder()
+            .State(StateId.A, (state) => {
+                state
+                    .MyCustomAction()
+                    .Update((action) => { });
+            })
+            .Build();
+    }
+}
+```
+
+### Installation
+
+Fluid State Machine is used through [Unity's Package Manager](https://docs.unity3d.com/Manual/CustomPackages.html). In order to use it you'll need to add the following lines to your `Packages/manifest.json` file. After that you'll be able to visually control what specific version of Fluid Behavior Tree you're using from the package manager window in Unity. This has to be done so your Unity editor can connect to NPM's package registry.
+
+```json
+{
+  "scopedRegistries": [
+    {
+      "name": "NPM",
+      "url": "https://registry.npmjs.org",
+      "scopes": [
+        "com.fluid"
+      ]
+    }
+  ],
+  "dependencies": {
+    "com.fluid.state-machine": "2.0.1"
+  }
+}
+```
+
+Archives of specific versions and release notes are available on the [releases page](https://github.com/ashblue/fluid-state-machine/releases).
+
 ### Examples
 
-More complex usage examples can be found in `Assets/FluidStateMachine/Examples` you'll find multiple example projects and code snippets. If you plan on running any of the example scenes you'll want to read `Assets/FluidStateMachine/Examples/README.md` to add any missing dependencies.
-
-### Releases
-
-To get the latest build simply grab a copy from the [releases](https://github.com/ashblue/fluid-state-machine/releases) page. If you're using Node.js you can keep this package up to date by installing it with the following code via NPM. If you use the NPM package it's strongly recommended to exclude the built files `Assets/Plugins/FluidStateMachine` from version control.
-
-CODE COMING SOON
+An [examples repo](https://github.com/ashblue/fluid-state-machine-examples) is available that demonstrates concepts found in this README.md file. Useful for seeing how these concepts might be used in an actual game.
 
 ## Table of Contents
 
-* [Getting Started](#getting-started)
-  + [Examples](#examples)
-  + [Releases](#releases)
 * [Action Library](#action-library)
   + [Defaults](#defaults)
     - [Enter](#enter)
@@ -132,7 +191,7 @@ var nestedFsm = new FsmBuilder()
     .State(OtherStateId.A, (state) => {
         state.Enter((action) => Debug.Log("Nested FSM triggered"));
         // This will notify the fsm that triggered nestedFsm to stop running it
-        state.Update((action) => action.ParentState.ParentFsm.Exit());
+        state.FsmExit();
     })
     .Build();
 
@@ -175,11 +234,11 @@ Logic fired when trigger is exited with a specific tag.
 
 #### Stay
 
-Logic fired when trigger is exited with a specific tag.
+Logic fired when Unity's stay trigger activates.
 
 ```c#
 .State(MyEnum.MyState, (state) => {
-    state.TriggerExit("Player", (action) => Debug.Log("Code goes here"));
+    state.TriggerStay("Player", (action) => Debug.Log("Code goes here"));
 })
 ```
 
@@ -236,7 +295,7 @@ The first thing you'll need to do is create a **custom action**.
 
 ```c#
 using UnityEngine;
-using CleverCrow.FluidStateMachine;
+using CleverCrow.Fluid.FSMs;
 
 public class MyAction : ActionBase {
     public MyAction (string newName) {
@@ -258,33 +317,23 @@ public class MyAction : ActionBase {
 }
 ```
 
-After the custom action is complete you'll need to create a **state builder** that inherits from the default state builder class.
+After the custom action is complete you'll need to create a `StateBuilder` C# extension that adds it. Then you'll be able to call it as if it's a native method on the library.
 
 ```c#
-using CleverCrow.FluidStateMachine;
+using CleverCrow.Fluid.FSMs;
 
-public class CustomStateBuilder : StateBuilderBase<CustomStateBuilder> {
-    public CustomStateBuilder MyAction (string newName) {
-        _actions.Add(new MyAction(newName));
-        return this;
+public static class StateBuilderExtensions {
+    public static StateBuilder MyAction (this StateBuilder builder, string name) {
+        return builder.AddAction(new MyAction(name));
     }
 }
 ```
 
-The state builder must then be plugged into an **FSM builder** class to properly encapsulate newly created states.
-
-```c#
-using CleverCrow.FluidStateMachine;
-
-public class FsmBuilderCustom : FsmBuilderBase<FsmBuilderCustom, CustomStateBuilder> {
-}
-```
-
-You've created a custom extendable FSM and state class that can be used anywhere in your code base. Try it out with a snippet like this.
+That's it! You're done. Try it out with this snippet.
 
 ```c#
 using UnityEngine;
-using CleverCrow.FluidStateMachine;
+using CleverCrow.Fluid.FSMs;
 
 public class FsmBuilderCustomUsage : MonoBehaviour {
     private enum StateId {
@@ -292,7 +341,7 @@ public class FsmBuilderCustomUsage : MonoBehaviour {
     }
     
     private void Awake () {
-        var fsmBuilder = new FsmBuilderCustom()
+        var fsmBuilder = new FsmBuilder()
             .State(StateId.A, (state) => {
                 state
                     .MyAction("custom name")
@@ -321,4 +370,12 @@ To make a commit type the following into a terminal from the root.
 
 ```bash
 npm run commit
+```
+
+### Build testing
+
+Builds can be manually run with the following command
+
+```bash
+npm run build
 ```
