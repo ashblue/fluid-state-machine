@@ -1,0 +1,8 @@
+{
+  "name": "com.fluid.state-machine",
+  "version": "0.0.0",
+  "displayName": "Fluid State Machine",
+  "description": "A micro-framework for creating state machines with a builder pattern",
+  "unity": "2018.1",
+  "dependencies": {}
+}
