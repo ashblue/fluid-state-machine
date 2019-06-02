@@ -60,3 +60,7 @@ crashlytics-build.properties
 
 # Node.js
 node_modules
+
+# Builds
+dist
+dist.zip

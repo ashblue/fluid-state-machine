@@ -371,3 +371,11 @@ To make a commit type the following into a terminal from the root.
 ```bash
 npm run commit
 ```
+
+### Build testing
+
+Builds can be manually run with the following command
+
+```bash
+npm run build
+```

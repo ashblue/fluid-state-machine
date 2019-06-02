@@ -2,7 +2,27 @@
   "name": "com.fluid.state-machine",
   "version": "0.0.0",
   "displayName": "Fluid State Machine",
-  "description": "A micro-framework for creating state machines with a builder pattern",
+  "description": "A finite state machine micro-framework for Unity3D focused on a pure code implementation.",
   "unity": "2018.1",
-  "dependencies": {}
+  "dependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ashblue/fluid-state-machine.git"
+  },
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ashblue/fluid-state-machine/issues"
+  },
+  "homepage": "https://github.com/ashblue/fluid-state-machine#readme",
+  "keywords": [
+    "unity3d",
+    "fsm",
+    "finite-state-machine",
+    "unity3d-plugin"
+  ],
+  "author": {
+    "name": "Ash Blue",
+    "email": "ash@blueashes.com",
+    "url": "https://twitter.com/ashbluewd"
+  }
 }

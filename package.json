@@ -6,6 +6,7 @@
   "description": "A finite state machine micro-framework for Unity3D focused on a pure code implementation.",
   "main": "create-dist.js",
   "scripts": {
+    "build": "node build.js",
     "commit": "git-cz"
   },
   "repository": {
@@ -39,7 +40,8 @@
     "@commitlint/travis-cli": "^8.0.0",
     "commitizen": "3.1.1",
     "cz-conventional-changelog": "^2.1.0",
-    "husky": "^2.3.0"
+    "husky": "^2.3.0",
+    "upm-package-populator": "^1.0.2"
   },
   "config": {
     "commitizen": {
