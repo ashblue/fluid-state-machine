@@ -18,7 +18,7 @@ Here we have a door that demonstrates a simple open and close mechanism. By chan
 
 ```c#
 using UnityEngine;
-using CleverCrow.FluidStateMachine;
+using CleverCrow.Fluid.FSMs;
 
 public class Door : MonoBehaviour {
     private IFsm _door;
@@ -65,7 +65,7 @@ public class Door : MonoBehaviour {
 If you want to write you own custom state actions to bundle up complex chunks of code. You can easily do so with [C# extensions](https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/classes-and-structs/extension-methods). This allows you to adjust the functionality of Fluid State Machine on a per project basis or write your own custom extension library for it. All without forking the core library, which allows you to still get future version updates.
 
 ```c#
-using CleverCrow.FluidStateMachine;
+using CleverCrow.Fluid.FSMs;
 
 public class MyCustomAction : ActionBase {
     protected override void OnUpdate () {
@@ -272,7 +272,7 @@ The first thing you'll need to do is create a **custom action**.
 
 ```c#
 using UnityEngine;
-using CleverCrow.FluidStateMachine;
+using CleverCrow.Fluid.FSMs;
 
 public class MyAction : ActionBase {
     public MyAction (string newName) {
@@ -297,7 +297,7 @@ public class MyAction : ActionBase {
 After the custom action is complete you'll need to create a `StateBuilder` C# extension that adds it. Then you'll be able to call it as if it's a native method on the library.
 
 ```c#
-using CleverCrow.FluidStateMachine;
+using CleverCrow.Fluid.FSMs;
 
 public static class StateBuilderExtensions {
     public static StateBuilder MyAction (this StateBuilder builder, string name) {
@@ -310,7 +310,7 @@ That's it! You're done. Try it out with this snippet.
 
 ```c#
 using UnityEngine;
-using CleverCrow.FluidStateMachine;
+using CleverCrow.Fluid.FSMs;
 
 public class FsmBuilderCustomUsage : MonoBehaviour {
     private enum StateId {
