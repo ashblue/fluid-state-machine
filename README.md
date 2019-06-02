@@ -98,7 +98,7 @@ public class ExampleUsage {
 
 ### Examples
 
-More complex usage examples can be found in `Assets/FluidStateMachine/Examples` you'll find multiple example projects and code snippets. If you plan on running any of the example scenes you'll want to read `Assets/FluidStateMachine/Examples/README.md` to add any missing dependencies.
+An [examples repo](https://github.com/ashblue/fluid-state-machine-examples) is available that demonstrates concepts found in this README.md file. Useful for seeing how these concepts might be used in an actual game.
 
 ## Table of Contents
 
