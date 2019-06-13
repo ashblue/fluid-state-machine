@@ -48,11 +48,20 @@ namespace CleverCrow.Fluid.FSMs {
                 }
             }
 
-            if (defaultState != null) {
-                fsm.DefaultState = fsm.GetState(defaultState.id);
-            }
+            SetupDefaultState(defaultState, fsm);
 
             return fsm;
+        }
+
+        private void SetupDefaultState (StateData defaultState, IFsm fsm) {
+            if (_stateData.Count == 0) return;
+            
+            if (defaultState == null) {
+                defaultState = _stateData[0];
+            }
+
+            fsm.DefaultState = fsm.GetState(defaultState.id);
+            fsm.SetState(fsm.DefaultState.Id);
         }
     }
 }

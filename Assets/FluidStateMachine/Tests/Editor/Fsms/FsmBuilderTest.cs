@@ -8,6 +8,7 @@ namespace CleverCrow.Fluid.FSMs.Editors {
         
         private enum StateEnum {
             A,
+            B,
         }
         
         [SetUp]
@@ -31,6 +32,27 @@ namespace CleverCrow.Fluid.FSMs.Editors {
         }
         
         public class DefaultMethod : FsmBuilderTest {
+            [Test]
+            public void It_should_set_the_default_state_as_current_state_immediately_after_building () {
+                var fsm = _builder
+                    .Default(StateEnum.B)
+                    .State(StateEnum.A, (a) => {})
+                    .State(StateEnum.B, (a) => {})
+                    .Build();
+                
+                Assert.AreEqual(fsm.GetState(StateEnum.B), fsm.CurrentState);
+            }
+
+            [Test]
+            public void No_default_state_should_result_in_first_declared_state () {
+                var fsm = _builder
+                    .State(StateEnum.A, (a) => {})
+                    .State(StateEnum.B, (a) => {})
+                    .Build();
+                
+                Assert.AreEqual(fsm.CurrentState, fsm.GetState(StateEnum.A));
+            }
+            
             [Test]
             public void It_should_set_the_default_start_state () {
                 var fsm = _builder
@@ -73,6 +95,15 @@ namespace CleverCrow.Fluid.FSMs.Editors {
                     .Build();
                 
                 Assert.IsNotNull(stateBuilder);
+            }
+        }
+
+        public class ForcibleCrashExample : FsmBuilderTest {
+            [Test]
+            public void Should_not_crash_with_nothing_built () {
+                var fsm = new FsmBuilder().Build();
+                
+                fsm.Tick();
             }
         }
     }

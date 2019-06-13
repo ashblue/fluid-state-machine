@@ -32,7 +32,10 @@ namespace CleverCrow.Fluid.FSMs {
         }
 
         public void Tick () {
-            if (CurrentState == null) SetState(DefaultState.Id);
+            if (CurrentState == null && DefaultState != null) {
+                SetState(DefaultState.Id);
+            }
+            
             CurrentState?.Update();
         }
 
