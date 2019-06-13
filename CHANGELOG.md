@@ -1,3 +1,10 @@
+## [2.0.1](https://github.com/ashblue/fluid-state-machine/compare/v2.0.0...v2.0.1) (2019-06-13)
+
+
+### Bug Fixes
+
+* **fsm:** state not initially set on build ([8e7e67a](https://github.com/ashblue/fluid-state-machine/commit/8e7e67a))
+
 # [2.0.0](https://github.com/ashblue/fluid-state-machine/compare/v1.0.0...v2.0.0) (2019-06-02)
 
 
