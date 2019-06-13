@@ -70,7 +70,7 @@ namespace CleverCrow.Fluid.FSMs.Editors {
             
             public class BuilderUsage {
                 [Test]
-                public void It_should_not_call_Enter_on_nested_FSM_when_created () {
+                public void It_should_call_Enter_on_nested_FSM_when_created () {
                     var stateEnter = false;
                     var nestedFsm = new FsmBuilder()
                         .Default(StateId.A)
@@ -86,7 +86,7 @@ namespace CleverCrow.Fluid.FSMs.Editors {
                         })
                         .Build();
                     
-                    Assert.IsFalse(stateEnter);
+                    Assert.IsTrue(stateEnter);
                 }
                 
                 [Test]
